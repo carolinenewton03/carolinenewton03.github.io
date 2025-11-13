@@ -10,10 +10,10 @@
 ############################
 
 # Name of website
-title: My website
+title: Porfolio of Caroline Newton
 
 # Your name to show in the footer
-author: caroline
+author: Caroline Newton
 
 ###############################################
 # --- List of links in the navigation bar --- #
@@ -21,6 +21,8 @@ author: caroline
 
 navbar-links:
   About Me: "aboutme"
+  My work:
+    - Github: "https://github.com/carolinenewton03"
   Resources:
     - Beautiful Jekyll: "https://beautifuljekyll.com"
     - Learn markdown: "https://www.markdowntutorial.com/"
