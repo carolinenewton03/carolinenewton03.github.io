@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ria Singh | Data Insights Portfolio</title>
+  <title>Caroline Newton | Data Analyst Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -23,10 +23,10 @@
     body {
       font-family: 'DM Sans', sans-serif;
       background:
-        radial-gradient(circle at 18% 18%, rgba(168,85,247,0.22), transparent 32%),
-        radial-gradient(circle at 82% 28%, rgba(192,132,252,0.16), transparent 30%),
-        radial-gradient(circle at 50% 82%, rgba(244,114,182,0.09), transparent 36%),
-        linear-gradient(180deg, #08040f 0%, #0b0614 48%, #14091f 100%);
+        radial-gradient(circle at 18% 18%, rgba(168,85,247,0.22), transparent 30%),
+        radial-gradient(circle at 78% 24%, rgba(192,132,252,0.16), transparent 28%),
+        radial-gradient(circle at 52% 82%, rgba(244,114,182,0.10), transparent 36%),
+        linear-gradient(180deg, #07030d 0%, #0b0614 48%, #150a22 100%);
       color: var(--text);
       line-height: 1.65;
       overflow-x: hidden;
@@ -71,7 +71,7 @@
       transition:all .2s; letter-spacing:.03em;
     }
     .nav-dot { width:5px; height:5px; border-radius:50%; background:var(--muted); transition:all .2s; flex-shrink:0; }
-    .sidebar-nav a:hover, .sidebar-nav a.active { color:var(--accent); border-left-color:var(--accent); background:rgba(77,184,255,.06); }
+    .sidebar-nav a:hover, .sidebar-nav a.active { color:var(--accent); border-left-color:var(--accent); background:rgba(192,132,252,.08); }
     .sidebar-nav a:hover .nav-dot, .sidebar-nav a.active .nav-dot { background:var(--accent); box-shadow:0 0 8px var(--accent); }
     .sidebar-footer { padding:0 28px; display:flex; gap:14px; }
     .sidebar-footer a { font-size:.75rem; font-weight:600; color:var(--muted); text-decoration:none; transition:color .2s; }
@@ -85,7 +85,6 @@
     /* HERO */
     .hero-inner { position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; width:100%; max-width:980px; padding-right:0; }
     .hero-girl-float {
-      display:none;
       position:absolute; right:-40px; top:50%;
       transform:translateY(-50%);
       animation:girlFloat 5s ease-in-out infinite;
@@ -95,7 +94,7 @@
 
     .hero-badge {
       display:inline-flex; align-items:center; gap:8px;
-      background:rgba(77,184,255,0.1); border:1px solid rgba(77,184,255,0.3);
+      background:rgba(192,132,252,0.12); border:1px solid rgba(192,132,252,0.35);
       border-radius:100px; padding:6px 18px;
       font-size:.78rem; font-weight:600; color:var(--accent);
       letter-spacing:.08em; text-transform:uppercase;
@@ -135,28 +134,38 @@
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
 
     .btn { display:inline-block; padding:11px 22px; border-radius:11px; font-size:.875rem; font-weight:600; text-decoration:none; border:1px solid transparent; transition:all .25s ease; }
-    .btn-primary { background:var(--accent); color:#060d1a; }
-    .btn-primary:hover { background:#7aceff; transform:translateY(-3px); box-shadow:0 8px 24px rgba(77,184,255,.3); }
-    .btn-ghost { border-color:rgba(77,184,255,.35); color:var(--accent); background:rgba(77,184,255,.07); }
-    .btn-ghost:hover { background:rgba(77,184,255,.15); transform:translateY(-3px); }
+    .btn-primary { background:var(--accent); color:#0b0614; }
+    .btn-primary:hover { background:#d8b4fe; transform:translateY(-3px); box-shadow:0 8px 24px rgba(192,132,252,.32); }
+    .btn-ghost { border-color:rgba(192,132,252,.35); color:var(--accent); background:rgba(192,132,252,.08); }
+    .btn-ghost:hover { background:rgba(192,132,252,.16); transform:translateY(-3px); }
     .btn-pink { border-color:rgba(244,114,182,.35); color:#f9a8d4; background:rgba(244,114,182,.07); }
     .btn-pink:hover { background:rgba(244,114,182,.18); transform:translateY(-3px); }
 
 
-    /* ROTATING GREETING */
-    .greeting-wrap { display:inline-block; min-height:1.22em; }
+    .greeting-wrap {
+      display:inline-block;
+      min-height:1.25em;
+    }
     #greeting {
       display:inline-block;
       color:var(--accent);
       font-style:italic;
-      animation:greetingGlow 2.5s ease-in-out infinite;
+      animation:greetingGlow 2.4s ease-in-out infinite;
       transition:opacity .45s ease, transform .45s ease, filter .45s ease;
     }
-    #greeting.fade-out { opacity:0; transform:translateY(-14px) scale(.96); filter:blur(5px); }
-    #greeting.fade-in { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+    #greeting.fade-out {
+      opacity:0;
+      transform:translateY(-14px) scale(.96);
+      filter:blur(4px);
+    }
+    #greeting.fade-in {
+      opacity:1;
+      transform:translateY(0) scale(1);
+      filter:blur(0);
+    }
     @keyframes greetingGlow {
       0%,100% { text-shadow:0 0 12px rgba(192,132,252,.28); }
-      50% { text-shadow:0 0 28px rgba(192,132,252,.75); }
+      50% { text-shadow:0 0 26px rgba(192,132,252,.68); }
     }
 
     /* GLASS */
@@ -170,10 +179,10 @@
     /* KPI */
     .kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:28px; }
     .kpi-card { padding:26px 18px; border-radius:16px; position:relative; overflow:hidden; transition:transform .28s, border-color .28s; text-align:center; }
-    .kpi-card:hover { transform:translateY(-6px); border-color:rgba(77,184,255,.4); }
+    .kpi-card:hover { transform:translateY(-6px); border-color:rgba(192,132,252,.42); }
     .kpi-anim { width:44px; height:44px; margin:0 auto 12px; }
     .icon-bars { display:flex; align-items:flex-end; gap:3px; height:100%; justify-content:center; }
-    .icon-bars span { width:8px; border-radius:3px 3px 2px 2px; background:linear-gradient(180deg,var(--accent),rgba(77,184,255,.3)); }
+    .icon-bars span { width:8px; border-radius:3px 3px 2px 2px; background:linear-gradient(180deg,var(--accent),rgba(192,132,252,.32)); }
     .kpi-value { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:var(--accent); line-height:1; }
     .kpi-label { color:var(--muted); font-size:.8rem; margin-top:6px; }
     .kpi-bar { position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transform:scaleX(0); transform-origin:left; transition:transform 2.0s ease .3s; }
@@ -195,10 +204,10 @@
     /* PROJECTS */
     .projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
     .project-card { border-radius:16px; overflow:hidden; transition:transform .32s, border-color .32s, box-shadow .32s; }
-    .project-card:hover { transform:translateY(-9px); border-color:rgba(77,184,255,.45); box-shadow:0 20px 40px rgba(0,0,0,.3); }
+    .project-card:hover { transform:translateY(-9px); border-color:rgba(192,132,252,.45); box-shadow:0 20px 40px rgba(0,0,0,.3); }
     .proj-img-wrap { overflow:hidden; height:158px; }
     .proj-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; }
-    .proj-img-local { object-fit:contain; background:#0a1020; padding:8px; }
+    .proj-img-local { object-fit:contain; background:#12081d; padding:8px; }
     .project-card:hover .proj-img { transform:scale(1.06); }
     .project-card:hover .proj-img-local { transform:none; }
     .proj-body { padding:18px; }
@@ -218,7 +227,7 @@
     .edu-timeline { position:relative; padding-left:26px; max-width:660px; margin-top:28px; }
     .edu-timeline::before { content:""; position:absolute; left:0; top:10px; bottom:10px; width:2px; background:linear-gradient(180deg,var(--accent),var(--accent-2),var(--accent-3)); border-radius:2px; }
     .edu-item { position:relative; padding:20px 22px; border-radius:14px; margin-bottom:14px; transition:transform .28s, border-color .28s; }
-    .edu-item:hover { transform:translateX(5px); border-color:rgba(77,184,255,.4); }
+    .edu-item:hover { transform:translateX(5px); border-color:rgba(192,132,252,.42); }
     .edu-item::before { content:""; position:absolute; left:-33px; top:22px; width:12px; height:12px; border-radius:50%; background:var(--accent); border:3px solid var(--bg); box-shadow:0 0 10px rgba(77,184,255,.6); }
     .edu-degree { font-size:.98rem; font-weight:700; margin-bottom:3px; }
     .edu-school { color:var(--muted); font-size:.86rem; }
@@ -243,11 +252,11 @@
       padding-bottom:3px;
       transition:border-color .2s, color .2s;
     }
-    .blog-header-link:hover { border-color:#4db8ff; color:var(--accent); }
+    .blog-header-link:hover { border-color:#c084fc; color:var(--accent); }
     .blog-link-icon {
       width:1.3em;
       height:1.3em;
-      border:1px solid rgba(77,184,255,.35);
+      border:1px solid rgba(192,132,252,.35);
       border-radius:50%;
       display:inline-flex;
       align-items:center;
@@ -257,7 +266,7 @@
       transform:translateY(-1px);
       transition:transform .2s ease, border-color .2s ease;
     }
-    .blog-header-link:hover .blog-link-icon { transform:translate(2px,-1px); border-color:#4db8ff; }
+    .blog-header-link:hover .blog-link-icon { transform:translate(2px,-1px); border-color:#c084fc; }
 
     /* CONTACT */
     .contact-card { max-width:600px; text-align:center; padding:52px 40px; border-radius:22px; position:relative; overflow:hidden; }
@@ -267,7 +276,7 @@
     .contact-sub { color:var(--muted); max-width:380px; margin:0 auto 28px; font-size:.92rem; }
     .contact-links { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
     .cl { display:inline-flex; align-items:center; gap:7px; text-decoration:none; font-weight:600; font-size:.875rem; padding:11px 20px; border-radius:11px; transition:all .25s; }
-    .cl-email { color:var(--accent); background:rgba(77,184,255,.1); border:1px solid rgba(77,184,255,.3); }
+    .cl-email { color:var(--accent); background:rgba(77,184,255,.1); border:1px solid rgba(192,132,252,.32); }
     .cl-li { color:#60a5fa; background:rgba(96,165,250,.1); border:1px solid rgba(96,165,250,.3); }
     .cl-gh { color:var(--accent-2); background:rgba(167,139,250,.1); border:1px solid rgba(167,139,250,.3); }
     .cl:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.25); }
@@ -286,7 +295,7 @@
 
     /* RESPONSIVE */
     @media(max-width:1060px){
-      .hero-inner { padding-right:120px; }
+      .hero-inner { padding-right:0; }
       .hero-girl-float { right:-18px; }
       .skills-row { grid-template-columns:repeat(2,1fr); }
       .projects-grid { grid-template-columns:repeat(2,1fr); }
@@ -315,28 +324,28 @@
 <div class="bg-charts" aria-hidden="true">
   <!-- Rising bar chart — bottom right -->
   <svg style="bottom:60px;right:230px;opacity:.07;width:260px;height:200px;" viewBox="0 0 260 200">
-    <line x1="10" y1="185" x2="250" y2="185" stroke="rgba(77,184,255,.4)" stroke-width="1"/>
-    <rect x="15" y="140" width="28" height="45" rx="4" fill="#4db8ff"><animate attributeName="height" values="45;80;45" dur="3.2s" repeatCount="indefinite"/><animate attributeName="y" values="140;105;140" dur="3.2s" repeatCount="indefinite"/></rect>
+    <line x1="10" y1="185" x2="250" y2="185" stroke="rgba(192,132,252,.42)" stroke-width="1"/>
+    <rect x="15" y="140" width="28" height="45" rx="4" fill="#c084fc"><animate attributeName="height" values="45;80;45" dur="3.2s" repeatCount="indefinite"/><animate attributeName="y" values="140;105;140" dur="3.2s" repeatCount="indefinite"/></rect>
     <rect x="55" y="110" width="28" height="75" rx="4" fill="#a78bfa" opacity=".85"><animate attributeName="height" values="75;50;75" dur="2.8s" begin=".4s" repeatCount="indefinite"/><animate attributeName="y" values="110;135;110" dur="2.8s" begin=".4s" repeatCount="indefinite"/></rect>
     <rect x="95" y="90" width="28" height="95" rx="4" fill="#f472b6" opacity=".8"><animate attributeName="height" values="95;120;95" dur="3.5s" begin=".8s" repeatCount="indefinite"/><animate attributeName="y" values="90;65;90" dur="3.5s" begin=".8s" repeatCount="indefinite"/></rect>
     <rect x="135" y="60" width="28" height="125" rx="4" fill="#34d399" opacity=".8"><animate attributeName="height" values="125;90;125" dur="3s" begin="1.2s" repeatCount="indefinite"/><animate attributeName="y" values="60;95;60" dur="3s" begin="1.2s" repeatCount="indefinite"/></rect>
-    <rect x="175" y="40" width="28" height="145" rx="4" fill="#4db8ff" opacity=".7"><animate attributeName="height" values="145;110;145" dur="2.6s" begin="1.6s" repeatCount="indefinite"/><animate attributeName="y" values="40;75;40" dur="2.6s" begin="1.6s" repeatCount="indefinite"/></rect>
+    <rect x="175" y="40" width="28" height="145" rx="4" fill="#c084fc" opacity=".7"><animate attributeName="height" values="145;110;145" dur="2.6s" begin="1.6s" repeatCount="indefinite"/><animate attributeName="y" values="40;75;40" dur="2.6s" begin="1.6s" repeatCount="indefinite"/></rect>
     <rect x="215" y="20" width="28" height="165" rx="4" fill="#a78bfa" opacity=".65"><animate attributeName="height" values="165;130;165" dur="3.8s" begin="2s" repeatCount="indefinite"/><animate attributeName="y" values="20;55;20" dur="3.8s" begin="2s" repeatCount="indefinite"/></rect>
   </svg>
   <!-- Trend line — top area -->
   <svg style="top:80px;right:80px;opacity:.055;width:300px;height:160px;" viewBox="0 0 300 160">
-    <polyline points="10,140 55,100 100,118 150,60 200,80 250,30 290,20" fill="none" stroke="#4db8ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="150" cy="60" r="5" fill="#4db8ff"/>
-    <circle cx="250" cy="30" r="5" fill="#4db8ff"/>
+    <polyline points="10,140 55,100 100,118 150,60 200,80 250,30 290,20" fill="none" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="150" cy="60" r="5" fill="#c084fc"/>
+    <circle cx="250" cy="30" r="5" fill="#c084fc"/>
     <polyline points="10,150 55,120 100,135 150,90 200,105 250,65 290,50" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="6 4" stroke-linecap="round"/>
   </svg>
   <!-- Scatter plot — middle left -->
   <svg style="top:35%;left:230px;opacity:.055;width:210px;height:200px;" viewBox="0 0 210 200">
-    <circle cx="30" cy="160" r="6" fill="#4db8ff"><animate attributeName="r" values="6;10;6" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="30" cy="160" r="6" fill="#c084fc"><animate attributeName="r" values="6;10;6" dur="4s" repeatCount="indefinite"/></circle>
     <circle cx="80" cy="110" r="8" fill="#a78bfa"><animate attributeName="r" values="8;5;8" dur="3.5s" begin=".5s" repeatCount="indefinite"/></circle>
     <circle cx="120" cy="130" r="5" fill="#f472b6"><animate attributeName="r" values="5;8;5" dur="3s" begin="1s" repeatCount="indefinite"/></circle>
     <circle cx="160" cy="70" r="9" fill="#34d399"><animate attributeName="r" values="9;6;9" dur="4.5s" begin="1.5s" repeatCount="indefinite"/></circle>
-    <circle cx="55" cy="50" r="5" fill="#4db8ff"><animate attributeName="r" values="5;9;5" dur="3.8s" begin="2s" repeatCount="indefinite"/></circle>
+    <circle cx="55" cy="50" r="5" fill="#c084fc"><animate attributeName="r" values="5;9;5" dur="3.8s" begin="2s" repeatCount="indefinite"/></circle>
     <circle cx="190" cy="150" r="7" fill="#a78bfa"><animate attributeName="r" values="7;4;7" dur="4.2s" begin=".8s" repeatCount="indefinite"/></circle>
     <circle cx="140" cy="30" r="4" fill="#f472b6"><animate attributeName="r" values="4;7;4" dur="3.3s" begin="1.3s" repeatCount="indefinite"/></circle>
     <line x1="30" y1="160" x2="80" y2="110" stroke="rgba(77,184,255,.25)" stroke-width="1"/>
@@ -345,7 +354,7 @@
   </svg>
   <!-- Spinning donut — bottom left -->
   <svg style="bottom:80px;left:240px;opacity:.05;width:140px;height:140px;" viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="34" fill="none" stroke="#4db8ff" stroke-width="11" stroke-dasharray="85 128" transform="rotate(-90 50 50)">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#c084fc" stroke-width="11" stroke-dasharray="85 128" transform="rotate(-90 50 50)">
       <animateTransform attributeName="transform" type="rotate" values="-90 50 50;270 50 50" dur="10s" repeatCount="indefinite"/>
     </circle>
     <circle cx="50" cy="50" r="34" fill="none" stroke="#a78bfa" stroke-width="11" stroke-dasharray="42 171" stroke-dashoffset="-85" transform="rotate(-90 50 50)">
@@ -364,11 +373,11 @@
     <li><a href="#projects"><span class="nav-dot"></span>Projects</a></li>
     <li><a href="#experience"><span class="nav-dot"></span>Experience</a></li>
     <li><a href="#education"><span class="nav-dot"></span>Education</a></li>
-    <li><a href="#blogs"><span class="nav-dot"></span>Coming Soon</a></li>
+    <li><a href="#blogs"><span class="nav-dot"></span>Blogs</a></li>
     <li><a href="#contact"><span class="nav-dot"></span>Contact</a></li>
   </ul>
   <div class="sidebar-footer">
-    <a href="https://www.linkedin.com/in/carolinenewton03/" target="_blank" rel="noreferrer">LinkedIn</a>
+    <a href="#" target="_blank" rel="noreferrer">LinkedIn</a>
     <a href="https://github.com/carolinenewton03" target="_blank" rel="noreferrer">GitHub</a>
   </div>
 </nav>
@@ -379,15 +388,12 @@
   <!-- HERO -->
   <section class="page-section" id="home">
     <div class="hero-inner">
-
-      <!-- Illustration removed for a cleaner data analyst hero -->
-
       <div class="hero-badge">Available for Data Analyst Opportunities</div>
       <h1><span class="greeting-wrap"><em id="greeting">வணக்கம்</em></span><br>I'm Caroline Newton.<br><em>Turning data into insights, stories, and smarter decisions.</em></h1>
       <div class="cta-group">
         <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="https://www.linkedin.com/in/carolinenewton03/" target="_blank" rel="noreferrer" class="btn btn-ghost">LinkedIn</a>
-        <a href="#" target="_blank" rel="noreferrer" class="btn btn-ghost">Resume</a>
+        <a href="#" target="_blank" rel="noreferrer" class="btn btn-ghost">LinkedIn</a>
+        <a href="#" target="_blank" rel="noreferrer" class="btn btn-ghost">View Resume</a>
       </div>
     </div>
   </section>
@@ -397,8 +403,8 @@
   <section class="page-section" id="about">
     <div class="reveal"><div class="sec-label">Introduction</div><h2 class="sec-title">About</h2></div>
     <div class="reveal">
-      <p class="hero-about">I'm a Master's student in Data Science at Michigan State University with a Computer Science background. I enjoy working with data to find patterns, build dashboards, and turn messy information into clear insights that support decisions.</p>
-      <p class="hero-about">My focus is data analytics, visualization, SQL, Excel, Power BI, and practical storytelling. I also have exposure to machine learning and NLP, but this portfolio is intentionally centered on analyst-ready skills: cleaning data, exploring trends, communicating findings, and building usable dashboards.</p>
+      <p class="hero-about">I'm a Master's student in Data Science at Michigan State University with a background in Computer Science. I enjoy working with data to uncover patterns, build intuitive dashboards, and turn complex information into clear, useful insights.</p>
+      <p class="hero-about">My focus is data analytics, dashboard development, business reporting, and data storytelling. I use tools like SQL, Excel, Power BI, Tableau, Python, and pandas to clean data, explore trends, and communicate findings in a way that supports better decisions.</p>
     </div>
   </section>
 
@@ -419,8 +425,8 @@
       <div class="kpi-card glass">
         <div class="kpi-anim">
           <svg viewBox="0 0 44 44" width="44" height="44">
-            <circle cx="22" cy="22" r="16" fill="none" stroke="rgba(77,184,255,.15)" stroke-width="8"/>
-            <circle cx="22" cy="22" r="16" fill="none" stroke="#4db8ff" stroke-width="8" stroke-dasharray="60 41" transform="rotate(-90 22 22)"><animate attributeName="stroke-dasharray" values="60 41;40 61;60 41" dur="3s" repeatCount="indefinite"/></circle>
+            <circle cx="22" cy="22" r="16" fill="none" stroke="rgba(192,132,252,.16)" stroke-width="8"/>
+            <circle cx="22" cy="22" r="16" fill="none" stroke="#c084fc" stroke-width="8" stroke-dasharray="60 41" transform="rotate(-90 22 22)"><animate attributeName="stroke-dasharray" values="60 41;40 61;60 41" dur="3s" repeatCount="indefinite"/></circle>
             <circle cx="22" cy="22" r="16" fill="none" stroke="#a78bfa" stroke-width="8" stroke-dasharray="25 76" stroke-dashoffset="-60" transform="rotate(-90 22 22)"><animate attributeName="stroke-dasharray" values="25 76;35 66;25 76" dur="3.5s" begin=".5s" repeatCount="indefinite"/></circle>
           </svg>
         </div>
@@ -439,8 +445,8 @@
             <line x1="8" y1="34" x2="36" y2="34" stroke="rgba(52,211,153,.4)" stroke-width="1.5"/>
           </svg>
         </div>
-        <div class="kpi-value"><span class="kn" data-t="3">0</span>+</div>
-        <div class="kpi-label">Data Pipelines</div>
+        <div class="kpi-value"><span class="kn" data-t="6">0</span>+</div>
+        <div class="kpi-label">Certifications Earned</div>
         <div class="kpi-bar"></div>
       </div>
       <div class="kpi-card glass">
@@ -452,8 +458,8 @@
             <circle cx="26" cy="29" r="1.5" fill="#a78bfa" opacity=".7"><animate attributeName="opacity" values=".7;.2;.7" dur="2.4s" begin=".4s" repeatCount="indefinite"/></circle>
           </svg>
         </div>
-        <div class="kpi-value"><span class="kn" data-t="7">0</span>+</div>
-        <div class="kpi-label">Business Cases Solved</div>
+        <div class="kpi-value"><span class="kn" data-t="4">0</span>+</div>
+        <div class="kpi-label">Years of Learning</div>
         <div class="kpi-bar"></div>
       </div>
     </div>
@@ -466,11 +472,11 @@
       <div class="skill-card glass">
         <div class="skill-anim">
           <svg viewBox="0 0 40 40" width="40" height="40">
-            <rect x="2" y="28" width="7" height="10" rx="2" fill="#4db8ff"><animate attributeName="height" values="10;22;10" dur="2s" repeatCount="indefinite"/><animate attributeName="y" values="28;16;28" dur="2s" repeatCount="indefinite"/></rect>
-            <rect x="12" y="20" width="7" height="18" rx="2" fill="#4db8ff" opacity=".7"><animate attributeName="height" values="18;10;18" dur="2.4s" begin=".3s" repeatCount="indefinite"/><animate attributeName="y" values="20;28;20" dur="2.4s" begin=".3s" repeatCount="indefinite"/></rect>
-            <rect x="22" y="14" width="7" height="24" rx="2" fill="#4db8ff" opacity=".5"><animate attributeName="height" values="24;32;24" dur="1.9s" begin=".6s" repeatCount="indefinite"/><animate attributeName="y" values="14;6;14" dur="1.9s" begin=".6s" repeatCount="indefinite"/></rect>
-            <rect x="32" y="8" width="7" height="30" rx="2" fill="#4db8ff" opacity=".4"><animate attributeName="height" values="30;20;30" dur="2.2s" begin=".9s" repeatCount="indefinite"/><animate attributeName="y" values="8;18;8" dur="2.2s" begin=".9s" repeatCount="indefinite"/></rect>
-            <line x1="0" y1="38" x2="40" y2="38" stroke="rgba(77,184,255,.3)" stroke-width="1"/>
+            <rect x="2" y="28" width="7" height="10" rx="2" fill="#c084fc"><animate attributeName="height" values="10;22;10" dur="2s" repeatCount="indefinite"/><animate attributeName="y" values="28;16;28" dur="2s" repeatCount="indefinite"/></rect>
+            <rect x="12" y="20" width="7" height="18" rx="2" fill="#c084fc" opacity=".7"><animate attributeName="height" values="18;10;18" dur="2.4s" begin=".3s" repeatCount="indefinite"/><animate attributeName="y" values="20;28;20" dur="2.4s" begin=".3s" repeatCount="indefinite"/></rect>
+            <rect x="22" y="14" width="7" height="24" rx="2" fill="#c084fc" opacity=".5"><animate attributeName="height" values="24;32;24" dur="1.9s" begin=".6s" repeatCount="indefinite"/><animate attributeName="y" values="14;6;14" dur="1.9s" begin=".6s" repeatCount="indefinite"/></rect>
+            <rect x="32" y="8" width="7" height="30" rx="2" fill="#c084fc" opacity=".4"><animate attributeName="height" values="30;20;30" dur="2.2s" begin=".9s" repeatCount="indefinite"/><animate attributeName="y" values="8;18;8" dur="2.2s" begin=".9s" repeatCount="indefinite"/></rect>
+            <line x1="0" y1="38" x2="40" y2="38" stroke="rgba(192,132,252,.32)" stroke-width="1"/>
           </svg>
         </div>
         <div class="skill-name">Data Analysis & Viz</div>
@@ -491,7 +497,7 @@
       <div class="skill-card glass">
         <div class="skill-anim">
           <svg viewBox="0 0 40 40" width="40" height="40">
-            <rect x="4" y="8" width="32" height="24" rx="4" fill="none" stroke="#4db8ff" stroke-width="1.8"/>
+            <rect x="4" y="8" width="32" height="24" rx="4" fill="none" stroke="#c084fc" stroke-width="1.8"/>
             <path d="M8 26 L14 20 L19 23 L27 14 L32 18" fill="none" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="14" cy="20" r="1.8" fill="#a78bfa"/>
             <circle cx="19" cy="23" r="1.8" fill="#a78bfa" opacity=".8"/>
@@ -516,7 +522,7 @@
         </div>
         <div class="skill-name">Machine Learning</div>
         <div class="skill-desc">Feature engineering, regression, classification, NLP, and cross-validation.</div>
-        <div class="pill-row"><span class="pill p">Scikit-learn</span><span class="pill p">Word2Vec</span><span class="pill p">NLP</span></div>
+        <div class="pill-row"><span class="pill p">Scikit-learn</span><span class="pill p">Classification</span><span class="pill p">Regression</span><span class="pill p">NLP</span></div>
       </div>
       <div class="skill-card glass">
         <div class="skill-anim">
@@ -529,9 +535,9 @@
             <circle cx="30" cy="35" r="2.5" fill="#34d399" opacity=".7"/>
           </svg>
         </div>
-        <div class="skill-name">Cloud & Data Engineering</div>
-        <div class="skill-desc">ETL design, storage, and analytics infrastructure on AWS and Azure.</div>
-        <div class="pill-row"><span class="pill g">AWS S3</span><span class="pill g">Athena</span><span class="pill g">Azure</span><span class="pill g">Glue</span></div>
+        <div class="skill-name">Databases & Tools</div>
+        <div class="skill-desc">Databases, version control, and lightweight app development tools for analytics projects.</div>
+        <div class="pill-row"><span class="pill g">MySQL</span><span class="pill g">GitHub</span><span class="pill g">Streamlit</span><span class="pill g">Flask</span></div>
       </div>
     </div>
   </section>
@@ -541,33 +547,33 @@
     <div class="reveal">
       <div class="sec-label">Work</div>
       <h2 class="sec-title">Projects</h2>
-      <p class="sec-intro">Selected analytics and data projects I can confidently explain, improve, and present.</p>
+      <p class="sec-intro">Selected analytics projects focused on dashboards, insight generation, and practical data storytelling.</p>
     </div>
     <div class="projects-grid stagger">
       <article class="project-card glass">
-        <div class="proj-img-wrap"><img class="proj-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="AI job market dashboard" loading="lazy"/></div>
+        <div class="proj-img-wrap"><img class="proj-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="Analytics dashboard" loading="lazy"/></div>
         <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">POWER BI</span><span class="proj-tag">PYTHON</span><span class="proj-tag">DATA ANALYSIS</span></div>
+          <div class="proj-tags"><span class="proj-tag">POWER BI</span><span class="proj-tag">DATA ANALYSIS</span><span class="proj-tag">VISUALIZATION</span></div>
           <div class="proj-title">AI Job Market Dashboard</div>
-          <div class="proj-desc"><ul><li>Built an interactive dashboard to analyze AI job trends, salary patterns, and skill demand across job postings.</li><li>Focused on visual storytelling, KPI design, and insights useful for students and job seekers.</li></ul></div>
+          <div class="proj-desc"><ul><li>Built an interactive dashboard to analyze AI job trends, salary distributions, and in-demand skills across industries.</li><li>Designed visuals to help users quickly understand role demand, compensation patterns, and skill requirements.</li></ul></div>
           <a class="proj-btn" href="#" target="_blank" rel="noreferrer">View Project</a>
         </div>
       </article>
       <article class="project-card glass">
-        <div class="proj-img-wrap"><img class="proj-img" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Smart resume analyzer" loading="lazy"/></div>
+        <div class="proj-img-wrap"><img class="proj-img" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80" alt="Resume analysis workspace" loading="lazy"/></div>
         <div class="proj-body">
           <div class="proj-tags"><span class="proj-tag">PYTHON</span><span class="proj-tag">STREAMLIT</span><span class="proj-tag">NLP</span><span class="proj-tag">SPACY</span></div>
           <div class="proj-title">Smart Resume Analyzer</div>
-          <div class="proj-desc"><ul><li>Developed an NLP-based application that analyzes resumes, extracts skills, and compares profiles against role requirements.</li><li>Designed the tool to give practical recommendations for improving resume alignment and career readiness.</li></ul></div>
+          <div class="proj-desc"><ul><li>Developed an NLP-powered application that analyzes resumes, extracts skills, and provides personalized recommendations.</li><li>Used text processing and matching logic to support career improvement and role-readiness insights.</li></ul></div>
           <a class="proj-btn" href="#" target="_blank" rel="noreferrer">View Project</a>
         </div>
       </article>
       <article class="project-card glass">
-        <div class="proj-img-wrap"><img class="proj-img" src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=900&q=80" alt="Olympic analytics dashboard" loading="lazy"/></div>
+        <div class="proj-img-wrap"><img class="proj-img" src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80" alt="Sports analytics" loading="lazy"/></div>
         <div class="proj-body">
           <div class="proj-tags"><span class="proj-tag">POWER BI</span><span class="proj-tag">SQL</span><span class="proj-tag">DASHBOARD</span></div>
           <div class="proj-title">Olympic Analytics Dashboard</div>
-          <div class="proj-desc"><ul><li>Created a dashboard to explore Olympic medal trends, country-wise performance, and athlete participation patterns.</li><li>Used filters, charts, and summary KPIs to make historical sports data easier to understand.</li></ul></div>
+          <div class="proj-desc"><ul><li>Created an interactive dashboard exploring Olympic medal trends, country-wise performance, and historical patterns.</li><li>Focused on clear visual storytelling to compare performance across years, countries, and sports categories.</li></ul></div>
           <a class="proj-btn" href="#" target="_blank" rel="noreferrer">View Project</a>
         </div>
       </article>
@@ -580,17 +586,16 @@
     <div class="edu-timeline reveal">
       <article class="edu-item glass">
         <div class="edu-degree">AI/ML Intern — YBI Foundation</div>
-        <div class="edu-year">Internship Experience</div>
+        <div class="edu-year">Internship</div>
         <ul class="edu-school" style="margin-top:10px; padding-left:18px;">
-          <li>Worked on machine learning and analytics projects using Python and real-world datasets.</li>
-          <li>Performed data preprocessing, exploratory analysis, feature engineering, model training, and evaluation.</li>
-          <li>Built practical understanding of classification, regression, and business-oriented data interpretation.</li>
+          <li>Worked on machine learning projects using real-world datasets, including preprocessing, feature engineering, model training, and evaluation.</li>
+          <li>Applied Python, pandas, scikit-learn, and visualization techniques to understand patterns and communicate results.</li>
         </ul>
       </article>
       <article class="edu-item glass">
-        <div class="edu-degree">Data Science Graduate Student</div>
-        <div class="edu-year">Michigan State University</div>
-        <div class="edu-school" style="margin-top:10px;">Developing skills in statistical analysis, data mining, machine learning, visualization, and applied analytics.</div>
+        <div class="edu-degree">Data Science Graduate Student — Michigan State University</div>
+        <div class="edu-year">2025 – 2027</div>
+        <div class="edu-school" style="margin-top:10px;">Building analytical, statistical, and computational skills through graduate coursework and applied projects.</div>
       </article>
     </div>
   </section>
@@ -600,29 +605,29 @@
     <div class="reveal"><div class="sec-label">Background</div><h2 class="sec-title">Education</h2></div>
     <div class="edu-timeline reveal">
       <article class="edu-item glass"><div class="edu-degree">M.S. in Data Science</div><div class="edu-school">Michigan State University</div><div class="edu-year">Expected 2027</div></article>
-      <article class="edu-item glass"><div class="edu-degree">B.E. Computer Science and Engineering</div><div class="edu-school">Sri Venkateswara College of Engineering</div><div class="edu-year">2021 – 2025</div></article>
+      <article class="edu-item glass"><div class="edu-degree">B.E. in Computer Science and Engineering</div><div class="edu-school">Sri Venkateswara College of Engineering</div><div class="edu-year">2021 – 2025</div></article>
     </div>
   </section>
 
-  <!-- COMING SOON -->
+  <!-- BLOGS -->
   <section class="page-section" id="blogs">
     <div class="reveal">
       <div class="sec-label">Writing</div>
-      <h2 class="sec-title">Coming Soon</h2>
-      <p class="sec-intro" style="margin-top:10px;">I’ll add short posts on analytics projects, dashboards, Excel/SQL workflows, and lessons from building data projects.</p>
+      <h2 class="sec-title">Research & Publications</h2>
+      <p class="sec-intro" style="margin-top:10px;">A dedicated space for future writing, research notes, and published work.</p>
     </div>
     <div class="blog-grid stagger">
       <article class="blog-card glass">
-        <div class="blog-chip">Analytics · Soon</div>
-        <div class="blog-title">Project write-ups coming soon</div>
-        <div class="blog-desc">Instead of adding filler content, this section will stay simple until I have useful posts worth sharing.</div>
-        <a class="blog-btn" href="#">Coming Soon</a>
+        <div class="blog-chip">Coming Soon</div>
+        <div class="blog-title">Publications & Technical Writing</div>
+        <div class="blog-desc">Currently preparing this section for future articles, project write-ups, and research contributions.</div>
+        <a class="blog-btn" href="#contact">Stay Connected</a>
       </article>
       <article class="blog-card glass">
-        <div class="blog-chip">Dashboards · Soon</div>
-        <div class="blog-title">Dashboard notes coming soon</div>
-        <div class="blog-desc">Planned: short breakdowns of Power BI dashboards, SQL analysis, and Excel-based reporting workflows.</div>
-        <a class="blog-btn" href="#">Coming Soon</a>
+        <div class="blog-chip">Coming Soon</div>
+        <div class="blog-title">Analytics Notes</div>
+        <div class="blog-desc">Short explainers on dashboards, SQL, Excel, Power BI, and data storytelling will be added here.</div>
+        <a class="blog-btn" href="#projects">View Projects</a>
       </article>
     </div>
   </section>
@@ -631,11 +636,11 @@
   <section class="page-section" id="contact" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div class="contact-card glass reveal">
       <div class="sec-label" style="margin-bottom:10px;">Let's work together</div>
-      <div class="contact-title">Open to Data Analyst & Data Science Roles</div>
-      <p class="contact-sub">Looking for opportunities where I can use analytics, dashboards, SQL, Excel, and data storytelling to support better decisions. Let's connect.</p>
+      <div class="contact-title">Open to Data Analyst Roles</div>
+      <p class="contact-sub">Looking for opportunities where analytics, dashboards, and data storytelling support better decisions. Let's connect.</p>
       <div class="contact-links">
         <a href="mailto:caronewton03@gmail.com" class="cl cl-email">✉ caronewton03@gmail.com</a>
-        <a href="https://www.linkedin.com/in/carolinenewton03/" target="_blank" rel="noreferrer" class="cl cl-li">💼 LinkedIn</a>
+        <a href="#" target="_blank" rel="noreferrer" class="cl cl-li">💼 LinkedIn</a>
         <a href="https://github.com/carolinenewton03" target="_blank" rel="noreferrer" class="cl cl-gh">⌥ GitHub</a>
       </div>
     </div>
@@ -645,50 +650,50 @@
 </div><!-- end .main -->
 
 <script>
-  /* PURPLE STARFIELD */
-  (function () {
-    const c = document.getElementById('stars');
-    const ctx = c.getContext('2d');
-    let stars = [];
-
-    function resize() {
-      c.width = window.innerWidth;
-      c.height = window.innerHeight;
-    }
-
-    function init() {
-      stars = [];
-      for (let i = 0; i < 240; i++) {
-        stars.push({
-          x: Math.random() * c.width,
-          y: Math.random() * c.height,
-          r: Math.random() * 2.1 + 0.35,
-          a: Math.random() * Math.PI * 2,
-          s: Math.random() * 0.6 + 0.12
-        });
+  /* STARFIELD */
+  (function(){
+    const c=document.getElementById('stars'),ctx=c.getContext('2d');let stars=[];
+    function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+    function init(){
+      stars=[];
+      for(let i=0;i<230;i++){
+        stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2.1+.35,a:Math.random()*Math.PI*2,s:Math.random()*.65+.15});
       }
     }
-
-    function draw() {
-      ctx.clearRect(0, 0, c.width, c.height);
-      stars.forEach(star => {
-        star.a += star.s * 0.012;
-        const op = (Math.sin(star.a) + 1) / 2 * 0.85 + 0.15;
+    function draw(){
+      ctx.clearRect(0,0,c.width,c.height);
+      stars.forEach(s=>{
+        s.a+=s.s*.01;
+        const op=(Math.sin(s.a)+1)/2*.85+.15;
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(235,220,255,${op})`;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#c084fc';
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(235,220,255,${op})`;
+        ctx.shadowBlur=10;
+        ctx.shadowColor="#c084fc";
         ctx.fill();
+        ctx.shadowBlur=0;
       });
       requestAnimationFrame(draw);
     }
-
-    resize();
-    init();
-    draw();
-    window.addEventListener('resize', () => { resize(); init(); });
+    resize();init();draw();window.addEventListener('resize',()=>{resize();init();});
   })();
+
+  /* GREETING ROTATION */
+  const greetings=["வணக்கம்","السلام عليكم","Hello","Bonjour"];
+  let greetingIndex=0;
+  const greetingEl=document.getElementById("greeting");
+  if(greetingEl){
+    setInterval(()=>{
+      greetingEl.classList.add("fade-out");
+      setTimeout(()=>{
+        greetingIndex=(greetingIndex+1)%greetings.length;
+        greetingEl.textContent=greetings[greetingIndex];
+        greetingEl.classList.remove("fade-out");
+        greetingEl.classList.add("fade-in");
+        setTimeout(()=>greetingEl.classList.remove("fade-in"),500);
+      },450);
+    },2300);
+  }
 
   /* SCROLL REVEAL */
   const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.12});
@@ -735,25 +740,6 @@
     entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.remove('active'));const a=document.querySelector(`.sidebar-nav a[href="#${e.target.id}"]`);if(a)a.classList.add('active');}});
   },{threshold:.35,rootMargin:'-10% 0px -55% 0px'});
   secs.forEach(s=>nObs.observe(s));
-
-  /* ROTATING MULTILINGUAL GREETING */
-  const greetings = ["வணக்கம்", "السلام عليكم", "Hello", "Bonjour"];
-  let greetingIndex = 0;
-  const greetingEl = document.getElementById("greeting");
-
-  if (greetingEl) {
-    setInterval(() => {
-      greetingEl.classList.add("fade-out");
-      setTimeout(() => {
-        greetingIndex = (greetingIndex + 1) % greetings.length;
-        greetingEl.textContent = greetings[greetingIndex];
-        greetingEl.classList.remove("fade-out");
-        greetingEl.classList.add("fade-in");
-        setTimeout(() => greetingEl.classList.remove("fade-in"), 500);
-      }, 450);
-    }, 2300);
-  }
-
 </script>
 </body>
 </html>
