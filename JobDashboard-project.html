@@ -8,7 +8,6 @@
   <style>
     :root {
       --bg: #0b0614;
-      --card: rgba(24,14,39,0.86);
       --accent: #c084fc;
       --accent-2: #a855f7;
       --accent-3: #f472b6;
@@ -17,321 +16,990 @@
       --muted: #b9a8d9;
       --line: rgba(192,132,252,0.18);
     }
-
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     html, body { min-height:100%; }
-
     body {
       font-family:'DM Sans',sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(168,85,247,0.18), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(192,132,252,0.12), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(244,114,182,0.08), transparent 35%),
+        linear-gradient(180deg, #08040f 0%, #0b0614 45%, #12081d 100%);
       color:var(--text);
       min-height:100vh;
-      background:
-        radial-gradient(circle at 18% 20%, rgba(168,85,247,0.20), transparent 30%),
-        radial-gradient(circle at 82% 26%, rgba(192,132,252,0.14), transparent 28%),
-        radial-gradient(circle at 50% 82%, rgba(244,114,182,0.10), transparent 36%),
-        linear-gradient(180deg, #08040f 0%, #0b0614 45%, #12081d 100%);
-      overflow-x:hidden;
     }
-
     canvas#stars { position:fixed; inset:0; z-index:0; pointer-events:none; }
 
+    /* ── NAV ── */
     .topnav {
-      flex-shrink:0; height:54px; position:relative; z-index:100;
-      background:rgba(11,6,20,.88); backdrop-filter:blur(22px);
+      flex-shrink:0; height:48px; position:relative; z-index:100;
+      background:rgba(11,6,20,.94); backdrop-filter:blur(20px);
       border-bottom:1px solid var(--line);
       display:flex; align-items:center; justify-content:space-between;
       padding:0 28px;
     }
-    .nav-logo { font-family:'Playfair Display',serif; font-size:.98rem; color:var(--accent); text-decoration:none; }
-    .nav-back { display:inline-flex; align-items:center; gap:6px; font-size:.70rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s, transform .2s; }
-    .nav-back:hover { color:var(--accent); transform:translateX(-2px); }
-    .nav-back svg { width:13px; height:13px; }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:.9rem; color:var(--accent); text-decoration:none; }
+    .nav-back { display:inline-flex; align-items:center; gap:5px; font-size:.68rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .nav-back:hover { color:var(--accent); }
+    .nav-back svg { width:12px; height:12px; }
 
+    /* ── BODY ── */
     .body-row {
       position:relative;
       z-index:2;
-      max-width:1040px;
+      max-width:980px;
       width:100%;
       margin:0 auto;
-      padding:28px 28px 38px;
+      padding:24px 28px 34px;
       display:flex;
       flex-direction:column;
-      gap:18px;
+      gap:16px;
     }
 
-    .project-heading {
-      text-align:center;
-      margin-top:8px;
+    /* ══ LEFT ══ */
+    .left {
+      display:flex; flex-direction:column; justify-content:flex-start;
+      padding:0;
+      overflow:visible;
+      background:none;
     }
-    .eyebrow {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      color:var(--accent);
-      border:1px solid rgba(192,132,252,.28);
-      background:rgba(192,132,252,.10);
-      border-radius:100px;
-      padding:6px 14px;
-      font-size:.64rem;
-      font-weight:700;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin-bottom:14px;
-    }
-    .eyebrow::before {
-      content:"";
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      background:var(--ok);
-      box-shadow:0 0 10px var(--ok);
-      animation:blink 2s ease infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.35;} }
+    .left-heading { font-family:'Playfair Display',serif; font-size:1.58rem; line-height:1.24; margin:0; text-align:center; white-space:normal; font-weight:700; }
+    .left-heading em { color:var(--accent); font-style:italic; }
+    .left-problem { color:var(--muted); font-size:.98rem; line-height:1.86; text-align:left; margin-bottom:12px; }
+    .left-problem strong { color:var(--muted); font-weight:400; }
+    .divider { height:1px; background:var(--line); margin:16px 0; }
+    .stack-label { font-size:.58rem; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-2); margin-bottom:8px; text-align:center; }
+    .stack-row { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+    .stack-pill { font-size:.66rem; font-weight:400; color:var(--accent-2); background:rgba(167,139,250,.09); border:1px solid rgba(167,139,250,.22); border-radius:100px; padding:4px 10px; }
+    .btn-row { display:flex; gap:8px; margin-top:18px; justify-content:center; flex-wrap:wrap; }
+    .btn-main { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 16px; border-radius:8px; font-size:.75rem; font-weight:400; text-decoration:none; transition:all .22s; white-space:nowrap; }
+    .btn-main svg { width:13px; height:13px; }
+    .btn-blue { background:var(--accent); color:#0b0614; border:1px solid transparent; }
+    .btn-blue:hover { background:#d8b4fe; transform:translateY(-2px); box-shadow:0 6px 18px rgba(192,132,252,.3); }
+    .btn-ghost { border:1px solid rgba(192,132,252,.3); color:var(--accent); background:rgba(192,132,252,.07); }
+    .btn-ghost:hover { background:rgba(192,132,252,.14); transform:translateY(-2px); }
 
-    .left-heading {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(2rem,4vw,3.4rem);
-      line-height:1.08;
-      margin:0;
-      text-align:center;
-      font-weight:700;
-    }
-    .left-heading em { color:var(--accent); font-style:italic; text-shadow:0 0 24px rgba(192,132,252,.28); }
-
-    .subtitle {
-      color:var(--muted);
-      max-width:720px;
-      margin:12px auto 0;
-      font-size:.98rem;
-      line-height:1.75;
-      text-align:center;
-    }
-
+    /* ══ RIGHT ══ */
     .right {
       display:flex; flex-direction:column;
       padding:0;
       overflow:visible;
       min-height:0;
       gap:10px;
-      margin-top:12px;
     }
 
     .slide-label {
       flex-shrink:0;
-      font-size:.62rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+      font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
       color:var(--accent); display:flex; align-items:center; gap:8px;
     }
-    .slide-label::after { content:""; flex:1; height:1px; background:linear-gradient(90deg,rgba(192,132,252,.35),transparent); }
+    .slide-label::after { content:""; flex:1; height:1px; background:linear-gradient(90deg,rgba(192,132,252,.3),transparent); }
 
     .deck-wrap {
       width:100%;
-      aspect-ratio:16/9;
-      min-height:500px;
+      aspect-ratio:16/10.8;
+      min-height:520px;
       position:relative;
-      background:rgba(12,7,22,.76);
+      background:rgba(8,15,30,.8);
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:14px;
       overflow:hidden;
-      backdrop-filter:blur(14px);
-      box-shadow:0 24px 60px rgba(0,0,0,.28);
+    }
+    @media (max-width:820px) {
+      .body-row { padding:20px 16px 24px; }
+      .deck-wrap { aspect-ratio:4/3; min-height:unset; }
     }
 
+    /* controls */
     .controls-bar {
-      flex-shrink:0; height:42px;
+      flex-shrink:0; height:40px;
       display:flex; align-items:center; gap:8px;
     }
-    .c-btn, .c-pause {
-      width:32px; height:32px; border-radius:9px;
-      background:rgba(192,132,252,.08);
-      border:1px solid rgba(192,132,252,.22);
-      color:var(--accent);
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      transition:all .18s;
-      flex-shrink:0;
-    }
-    .c-pause { color:var(--accent-2); background:rgba(168,85,247,.08); }
-    .c-btn:hover, .c-pause:hover { background:rgba(192,132,252,.18); transform:translateY(-2px); }
-    .c-btn svg, .c-pause svg { width:13px; height:13px; }
-    .c-counter { font-size:.72rem; font-weight:600; color:var(--muted); flex:1; text-align:center; }
+    .c-btn { width:30px; height:30px; border-radius:7px; background:rgba(192,132,252,.07); border:1px solid rgba(192,132,252,.18); color:var(--accent); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .18s; flex-shrink:0; }
+    .c-btn:hover { background:rgba(192,132,252,.16); }
+    .c-btn svg { width:12px; height:12px; }
+    .c-pause { width:30px; height:30px; border-radius:7px; background:rgba(167,139,250,.07); border:1px solid rgba(167,139,250,.18); color:var(--accent-2); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .18s; flex-shrink:0; }
+    .c-pause:hover { background:rgba(167,139,250,.15); }
+    .c-pause svg { width:12px; height:12px; }
+    .c-counter { font-size:.7rem; font-weight:600; color:var(--muted); flex:1; text-align:center; }
     .c-counter span { color:var(--accent); font-weight:700; }
     .c-dots { display:flex; gap:5px; align-items:center; }
-    .c-dot { width:6px; height:6px; border-radius:50%; background:rgba(192,132,252,.22); border:1px solid rgba(192,132,252,.35); cursor:pointer; transition:all .2s; }
-    .c-dot.active { background:var(--accent); width:16px; border-radius:4px; box-shadow:0 0 8px rgba(192,132,252,.55); }
-    .prog-wrap { width:76px; height:3px; background:rgba(192,132,252,.12); border-radius:2px; overflow:hidden; flex-shrink:0; }
-    .prog-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-3)); width:0%; transition:width .1s linear; }
+    .c-dot { width:5px; height:5px; border-radius:50%; background:rgba(192,132,252,.2); border:1px solid rgba(192,132,252,.3); cursor:pointer; transition:all .2s; }
+    .c-dot.active { background:var(--accent); width:14px; border-radius:3px; box-shadow:0 0 5px rgba(192,132,252,.4); }
+    .prog-wrap { width:70px; height:3px; background:rgba(192,132,252,.1); border-radius:2px; overflow:hidden; flex-shrink:0; }
+    .prog-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); width:0%; transition:width .1s linear; }
 
+    /* ── SLIDES ── */
     .slide {
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition:opacity .55s ease;
+      position:absolute; inset:0;
+      opacity:0; transition:opacity .6s ease;
       pointer-events:none;
-      padding:36px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(192,132,252,.12), transparent 32%),
-        radial-gradient(circle at 85% 80%, rgba(244,114,182,.09), transparent 34%),
-        rgba(12,7,22,.76);
     }
     .slide.active { opacity:1; pointer-events:all; }
 
+    /* TEXT-ONLY SLIDE — centered, big */
+    .slide.s-textonly {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:28px 36px; text-align:center;
+      background:linear-gradient(135deg,rgba(192,132,252,.04),rgba(167,139,250,.03));
+    }
+
+    /* IMAGE SLIDE — text top 38%, image bottom 62% */
+    .slide.s-imgslide {
+      display:grid;
+      grid-template-rows:38% 62%;
+    }
+
+    /* CTA slide */
+    .slide.s-cta {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:24px; text-align:center;
+      background:linear-gradient(135deg,rgba(192,132,252,.06),rgba(167,139,250,.06));
+    }
+
+    /* shared text elements */
     .s-badge {
-      align-self:flex-start;
-      font-size:.60rem;
-      font-weight:700;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--accent);
-      background:rgba(192,132,252,.10);
-      border:1px solid rgba(192,132,252,.24);
-      border-radius:100px;
-      padding:4px 11px;
-      margin-bottom:14px;
+      font-size:.55rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--accent); background:rgba(192,132,252,.1); border:1px solid rgba(192,132,252,.2);
+      border-radius:100px; padding:3px 10px; margin-bottom:10px; display:inline-block;
     }
     .s-title {
       font-family:'Playfair Display',serif;
-      font-size:clamp(1.55rem,3vw,2.7rem);
-      line-height:1.15;
-      max-width:760px;
-      margin-bottom:12px;
+      font-size:clamp(1rem,2.4vw,1.45rem);
+      line-height:1.25; color:var(--text); margin-bottom:8px;
     }
     .s-title em { color:var(--accent); font-style:italic; }
-    .s-body {
-      color:var(--muted);
-      font-size:.94rem;
-      line-height:1.75;
-      max-width:780px;
-    }
+    .s-title .hi2 { color:var(--accent-2); }
+    .s-title .hi3 { color:var(--ok); }
+    .s-body { font-size:.78rem; color:var(--muted); line-height:1.65; }
     .s-body strong { color:var(--text); }
+    .s-body .accent { color:var(--accent); font-weight:600; }
+    .s-body .ok { color:var(--ok); font-weight:600; }
 
-    .mini-grid {
+    /* image panel inside imgslide */
+    .s-img-panel { overflow:hidden; background:#12081d; }
+    .s-img-panel img { width:100%; height:100%; object-fit:contain; padding:8px; display:block; }
+
+    /* text panel inside imgslide */
+    .s-top-text {
+      display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+      padding:14px 22px 10px;
+      border-bottom:1px solid var(--line);
+      background:rgba(11,6,20,.72);
+    }
+
+    /* time table */
+    .time-tbl { width:100%; border-collapse:collapse; margin-top:10px; text-align:left; }
+    .time-tbl tr { border-bottom:1px solid rgba(192,132,252,.07); }
+    .time-tbl tr:last-child { border-bottom:none; }
+    .time-tbl td { padding:5px 2px; font-size:.74rem; }
+    .time-tbl td:first-child { color:var(--muted); }
+    .time-tbl td:last-child { text-align:right; font-weight:700; white-space:nowrap; }
+    .bad { color:#fc8181; }
+    .good { color:var(--ok); }
+
+    /* pipeline chain with SVG icons */
+    .chain { display:flex; align-items:center; flex-wrap:wrap; justify-content:center; gap:4px; margin-top:14px; }
+    .chain-step {
+      display:flex; flex-direction:column; align-items:center; gap:5px;
+      padding:10px 14px;
+      background:rgba(192,132,252,.07); border:1px solid rgba(192,132,252,.18);
+      border-radius:10px; min-width:76px;
+    }
+    .chain-step svg { width:20px; height:20px; color:var(--accent); }
+    .chain-step .cs-name { font-size:.64rem; font-weight:700; color:var(--accent); }
+    .chain-step .cs-tool { font-size:.58rem; color:var(--muted); }
+    .chain-arrow { color:var(--accent-2); font-size:.9rem; padding:0 2px; font-weight:700; }
+
+    /* stat chips */
+    .stat-row { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin-top:14px; }
+    .stat-chip { padding:7px 12px; border-radius:9px; background:rgba(192,132,252,.07); border:1px solid rgba(192,132,252,.15); text-align:center; }
+    .stat-chip .sv { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--accent); display:block; line-height:1; }
+    .stat-chip .sl { font-size:.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; display:block; margin-top:2px; }
+
+    /* bullet list */
+    .s-list { list-style:none; display:flex; flex-direction:column; gap:6px; margin-top:8px; text-align:left; }
+    .s-list li { display:flex; align-items:flex-start; gap:7px; font-size:.76rem; color:var(--muted); line-height:1.5; }
+    .s-list li::before { content:"→"; color:var(--accent); flex-shrink:0; font-weight:700; }
+    .s-list li strong { color:var(--text); }
+
+    /* before/after grid */
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; width:100%; max-width:480px; }
+    .ba-card { padding:12px 14px; border-radius:10px; }
+    .ba-label { font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; }
+    .ba-val { font-size:.76rem; color:var(--muted); line-height:1.55; }
+
+    /* CTA */
+    .cta-icon-big { width:46px; height:46px; border-radius:12px; background:rgba(192,132,252,.12); border:1px solid rgba(192,132,252,.25); display:flex; align-items:center; justify-content:center; margin-bottom:4px; }
+    .cta-icon-big svg { width:22px; height:22px; color:var(--accent); }
+    .cta-big-title { font-family:'Playfair Display',serif; font-size:1.1rem; text-align:center; margin-bottom:6px; }
+    .cta-big-desc { font-size:.74rem; color:var(--muted); text-align:center; max-width:280px; line-height:1.6; margin-bottom:10px; }
+    .cta-big-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 22px; border-radius:9px; font-size:.76rem; font-weight:700; text-decoration:none; background:var(--accent); color:#0b0614; transition:all .22s; }
+    .cta-big-btn:hover { background:#d8b4fe; transform:translateY(-2px); box-shadow:0 6px 18px rgba(192,132,252,.3); }
+    .cta-big-btn svg { width:13px; height:13px; }
+
+
+    /* CUSTOM TEXT SLIDES */
+    .slide.s-custom {
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:34px 42px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(192,132,252,.12), transparent 36%),
+        linear-gradient(135deg, rgba(192,132,252,.055), rgba(168,85,247,.045));
+    }
+    .custom-title {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.25rem,2.5vw,1.8rem);
+      line-height:1.18;
+      margin-bottom:14px;
+      color:var(--text);
+      text-align:left;
+    }
+    .custom-title em {
+      color:var(--accent);
+      font-style:italic;
+    }
+    .custom-text {
+      color:var(--muted);
+      font-size:.86rem;
+      line-height:1.7;
+      max-width:850px;
+    }
+    .custom-text p {
+      margin-bottom:10px;
+    }
+    .custom-text ul {
+      margin:8px 0 0 18px;
+      display:grid;
+      gap:6px;
+    }
+    .custom-text li {
+      padding-left:2px;
+    }
+    .workflow-box {
+      margin-top:14px;
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:24px;
-      max-width:860px;
+      gap:10px;
     }
-    .mini-card {
-      border:1px solid var(--line);
-      background:rgba(24,14,39,.70);
-      border-radius:14px;
+    .workflow-step {
+      border:1px solid rgba(192,132,252,.22);
+      background:rgba(192,132,252,.07);
+      border-radius:12px;
+      padding:12px 10px;
+      text-align:center;
+      color:var(--text);
+      font-size:.78rem;
+      font-weight:700;
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .workflow-step:hover {
+      transform:translateY(-4px);
+      border-color:rgba(192,132,252,.5);
+      box-shadow:0 10px 24px rgba(0,0,0,.24);
+    }
+    .mini-note {
+      margin-top:14px;
+      color:var(--muted);
+      font-size:.78rem;
+      line-height:1.6;
+      border-left:2px solid var(--accent);
+      padding-left:12px;
+    }
+    .insight-list {
+      display:grid;
+      gap:9px;
+      margin-top:10px;
+    }
+    .insight-list div {
+      border:1px solid rgba(192,132,252,.16);
+      background:rgba(192,132,252,.055);
+      border-radius:10px;
+      padding:10px 12px;
+      color:var(--muted);
+      font-size:.79rem;
+      line-height:1.55;
+    }
+    .app-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .app-card {
+      border:1px solid rgba(192,132,252,.18);
+      background:rgba(192,132,252,.055);
+      border-radius:12px;
+      padding:13px 14px;
+      color:var(--muted);
+      font-size:.78rem;
+      line-height:1.55;
+    }
+    .app-card strong {
+      color:var(--text);
+      display:block;
+      margin-bottom:4px;
+    }
+    .slide.s-dashboard {
+      display:grid;
+      grid-template-rows:24% 76%;
       padding:18px;
-      transition:transform .25s, border-color .25s;
+      gap:12px;
+      background:linear-gradient(135deg, rgba(192,132,252,.08), rgba(168,85,247,.06));
     }
-    .mini-card:hover { transform:translateY(-5px); border-color:rgba(192,132,252,.42); }
-    .mini-num {
-      font-family:'Playfair Display',serif;
-      font-size:2rem;
-      color:var(--accent);
-      line-height:1;
+    .dashboard-head {
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+    }
+    .dashboard-head .custom-title {
+      text-align:center;
       margin-bottom:6px;
     }
-    .mini-label {
-      font-size:.78rem;
-      color:var(--muted);
-      line-height:1.45;
+    .slide.s-dashboard iframe {
+      width:100%;
+      height:100%;
+      border:0;
+      border-radius:12px;
+      background:#0b0614;
+      border:1px solid rgba(192,132,252,.22);
+    }
+    @media(max-width:820px){
+      .slide.s-custom { padding:22px 20px; }
+      .workflow-box { grid-template-columns:1fr; }
+      .app-grid { grid-template-columns:1fr; }
+      .custom-text { font-size:.78rem; }
     }
 
-    .bar-chart {
-      display:flex;
-      align-items:flex-end;
-      gap:12px;
-      height:170px;
-      margin-top:24px;
-      max-width:620px;
-      border-bottom:1px solid var(--line);
-      padding:0 10px;
-    }
-    .bar {
-      width:52px;
-      border-radius:10px 10px 3px 3px;
-      background:linear-gradient(180deg,var(--accent),rgba(192,132,252,.22));
-      position:relative;
-      animation:rise 2.4s ease-in-out infinite;
-    }
-    .bar:nth-child(2){ animation-delay:.2s; background:linear-gradient(180deg,var(--accent-2),rgba(168,85,247,.20)); }
-    .bar:nth-child(3){ animation-delay:.4s; background:linear-gradient(180deg,var(--accent-3),rgba(244,114,182,.20)); }
-    .bar:nth-child(4){ animation-delay:.6s; background:linear-gradient(180deg,var(--ok),rgba(52,211,153,.18)); }
-    @keyframes rise { 0%,100%{transform:scaleY(.92);} 50%{transform:scaleY(1);} }
-    .bar span {
-      position:absolute;
-      left:50%;
-      bottom:-26px;
-      transform:translateX(-50%);
-      font-size:.65rem;
-      color:var(--muted);
-      white-space:nowrap;
+
+    /* FIX: center text slides inside the deck */
+    #deck .slide.s-custom {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      padding: 28px 42px;
+      overflow-y: auto;
     }
 
-    .s-list {
-      list-style:none;
-      display:grid;
-      gap:10px;
-      margin-top:20px;
-      max-width:760px;
-    }
-    .s-list li {
-      display:flex;
-      gap:10px;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:.92rem;
-    }
-    .s-list li::before {
-      content:"→";
-      color:var(--accent);
-      font-weight:800;
-      flex-shrink:0;
+    #deck .slide.s-custom.active {
+      opacity: 1;
+      pointer-events: all;
     }
 
-    .left {
-      margin-top:12px;
-      padding:24px;
-      border:1px solid var(--line);
-      background:var(--card);
-      border-radius:18px;
-      backdrop-filter:blur(12px);
+    #deck .slide.s-custom .s-badge {
+      margin: 0 auto 14px;
+      width: fit-content;
     }
-    .left-problem {
-      color:var(--muted);
-      font-size:.96rem;
-      line-height:1.82;
-      text-align:left;
-      margin-bottom:12px;
-    }
-    .left-problem strong { color:var(--text); font-weight:600; }
-    .divider { height:1px; background:var(--line); margin:18px 0; }
-    .stack-label { font-size:.62rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; text-align:center; }
-    .stack-row { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
-    .stack-pill { font-size:.70rem; font-weight:600; color:var(--accent); background:rgba(192,132,252,.09); border:1px solid rgba(192,132,252,.24); border-radius:100px; padding:4px 11px; }
 
-    .btn-row { display:flex; gap:9px; margin-top:20px; justify-content:center; flex-wrap:wrap; }
-    .btn-main {
-      display:inline-flex; align-items:center; justify-content:center; gap:7px;
-      padding:9px 17px; border-radius:10px; font-size:.76rem; font-weight:700;
-      text-decoration:none; transition:all .22s; white-space:nowrap;
+    #deck .slide.s-custom .custom-title {
+      margin-top: 0;
+      text-align: center;
     }
-    .btn-main svg { width:14px; height:14px; }
-    .btn-blue { background:var(--accent); color:#0b0614; border:1px solid transparent; }
-    .btn-blue:hover { background:#d8b4fe; transform:translateY(-2px); box-shadow:0 8px 20px rgba(192,132,252,.30); }
-    .btn-ghost { border:1px solid rgba(192,132,252,.30); color:var(--accent); background:rgba(192,132,252,.08); }
-    .btn-ghost:hover { background:rgba(192,132,252,.16); transform:translateY(-2px); }
 
-    @media (max-width:820px) {
-      .body-row { padding:22px 16px 28px; }
-      .deck-wrap { aspect-ratio:4/3; min-height:unset; }
-      .slide { padding:24px; }
-      .mini-grid { grid-template-columns:1fr; }
-      .bar-chart { height:140px; gap:8px; }
-      .bar { width:38px; }
-      .controls-bar { flex-wrap:wrap; height:auto; }
-      .prog-wrap { display:none; }
+    #deck .slide.s-custom .custom-text {
+      margin: 0 auto;
+      text-align: left;
     }
-  </style>
+
+    #deck .slide.s-custom .mini-note {
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Cleaner workflow: curved path style */
+    .workflow-path {
+      margin: 18px auto 0;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+    }
+
+    .wf-node {
+      position: relative;
+      min-width: 138px;
+      padding: 11px 12px;
+      border-radius: 999px;
+      text-align: center;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(192,132,252,.14), rgba(168,85,247,.07));
+      border: 1px solid rgba(192,132,252,.28);
+      box-shadow: 0 8px 22px rgba(0,0,0,.18);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .wf-node:hover {
+      transform: translateY(-4px);
+      border-color: rgba(192,132,252,.58);
+      box-shadow: 0 14px 30px rgba(0,0,0,.26);
+    }
+
+    .wf-link {
+      color: var(--accent);
+      font-weight: 800;
+      opacity: .9;
+      animation: arrowPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes arrowPulse {
+      0%,100% { opacity: .45; transform: translateX(0); }
+      50% { opacity: 1; transform: translateX(3px); }
+    }
+
+
+    /* SCREENSHOT-STYLE SLIDE ALIGNMENT */
+    #deck .slide.s-custom {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 56px 72px;
+      overflow-y: auto;
+    }
+
+    #deck .slide.s-custom.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #deck .slide.s-custom .s-badge {
+      margin: 0 0 16px 0;
+      width: fit-content;
+    }
+
+    #deck .slide.s-custom .custom-title {
+      margin-top: 0;
+      margin-bottom: 18px;
+      text-align: left;
+      max-width: 960px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.05;
+    }
+
+    #deck .slide.s-custom .custom-text {
+      margin: 0;
+      max-width: 920px;
+      text-align: left;
+      font-size: clamp(.92rem, 1.35vw, 1.12rem);
+      line-height: 1.75;
+    }
+
+    #deck .slide.s-custom .custom-text p {
+      margin-bottom: 14px;
+    }
+
+    #deck .slide.s-custom .custom-text ul {
+      margin-top: 12px;
+      margin-left: 0;
+      padding-left: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    #deck .slide.s-custom .custom-text li {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    #deck .slide.s-custom .custom-text li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    #deck .slide.s-custom .mini-note {
+      max-width: 920px;
+      margin: 18px 0 0 0;
+    }
+
+    /* Workflow slide: narrative bullets, not block cards */
+    .workflow-narrative {
+      display: grid;
+      gap: 15px;
+      margin-top: 18px;
+      max-width: 940px;
+    }
+
+    .workflow-line {
+      position: relative;
+      padding-left: 34px;
+      color: var(--muted);
+      font-size: clamp(.92rem, 1.25vw, 1.08rem);
+      line-height: 1.65;
+    }
+
+    .workflow-line::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .workflow-line strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    @media(max-width:820px){
+      #deck .slide.s-custom {
+        padding: 28px 24px;
+      }
+      #deck .slide.s-custom .custom-title {
+        font-size: 1.75rem;
+      }
+      #deck .slide.s-custom .custom-text {
+        font-size: .82rem;
+      }
+    }
+
+
+    /* Insight lines: cleaner than cards */
+    .insight-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+      max-width: 940px;
+    }
+
+    .insight-list div {
+      position: relative;
+      border: none !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      padding: 0 0 0 30px !important;
+      color: var(--muted);
+      font-size: clamp(.86rem, 1.15vw, 1rem);
+      line-height: 1.6;
+    }
+
+    .insight-list div::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    /* IMAGE CAROUSEL */
+    #deck .slide img {
+      width:100%; height:100%;
+      object-fit:contain;
+      display:block;
+      border-radius:10px;
+    }
+    #deck .slide {
+      position:absolute; inset:0;
+      opacity:0; transition:opacity .5s ease;
+      pointer-events:none;
+      background:#0b0614;
+      border-radius:10px;
+    }
+    #deck .slide.active { opacity:1; pointer-events:all; }
+  
+    /* FINAL COMPACT SLIDE + DASHBOARD FIX */
+    .deck-wrap {
+      background: rgba(18, 8, 29, 0.58) !important;
+      border-color: rgba(192,132,252,.24) !important;
+      box-shadow:
+        inset 0 0 60px rgba(192,132,252,.035),
+        0 22px 55px rgba(0,0,0,.28);
+      min-height: 560px !important;
+    }
+
+    #deck .slide {
+      background: transparent !important;
+    }
+
+    #deck .slide.s-custom {
+      padding: 36px 58px !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+
+    #deck .slide.s-custom .s-badge {
+      margin-bottom: 10px !important;
+      font-size: .55rem !important;
+      padding: 3px 12px !important;
+    }
+
+    #deck .slide.s-custom .custom-title {
+      font-size: clamp(1.9rem, 3.25vw, 2.75rem) !important;
+      line-height: 1.08 !important;
+      margin-bottom: 14px !important;
+    }
+
+    #deck .slide.s-custom .custom-text {
+      font-size: .92rem !important;
+      line-height: 1.55 !important;
+      max-width: 960px !important;
+    }
+
+    #deck .slide.s-custom .custom-text p {
+      margin-bottom: 9px !important;
+    }
+
+    #deck .slide.s-custom .custom-text ul {
+      gap: 7px !important;
+      margin-top: 8px !important;
+    }
+
+    #deck .slide.s-custom .custom-text li {
+      padding-left: 24px !important;
+      line-height: 1.45 !important;
+    }
+
+    .workflow-narrative {
+      gap: 8px !important;
+      margin-top: 10px !important;
+      max-width: 940px !important;
+    }
+
+    .workflow-line {
+      font-size: .88rem !important;
+      line-height: 1.45 !important;
+      padding-left: 26px !important;
+    }
+
+    .insight-list {
+      gap: 8px !important;
+      margin-top: 8px !important;
+    }
+
+    .insight-list div {
+      font-size: .86rem !important;
+      line-height: 1.42 !important;
+      padding-left: 24px !important;
+    }
+
+    .app-grid {
+      gap: 8px !important;
+      margin-top: 8px !important;
+    }
+
+    .app-card {
+      padding: 9px 11px !important;
+      font-size: .82rem !important;
+      line-height: 1.38 !important;
+      background: rgba(192,132,252,.045) !important;
+    }
+
+    .mini-note {
+      margin-top: 10px !important;
+      font-size: .84rem !important;
+      line-height: 1.45 !important;
+    }
+
+    #deck .slide.s-dashboard {
+      grid-template-rows: 20% 80% !important;
+      padding: 14px !important;
+      gap: 8px !important;
+      background: transparent !important;
+      overflow: hidden !important;
+    }
+
+    .dashboard-head {
+      padding: 0 !important;
+    }
+
+    .dashboard-head .custom-title {
+      font-size: clamp(1.25rem, 2vw, 1.75rem) !important;
+      margin-bottom: 4px !important;
+    }
+
+    .dashboard-head .s-body {
+      font-size: .78rem !important;
+      line-height: 1.35 !important;
+      margin: 0 !important;
+    }
+
+    .slide.s-dashboard iframe {
+      height: 100% !important;
+      min-height: 0 !important;
+      border-radius: 12px !important;
+      background: rgba(18,8,29,.5) !important;
+    }
+
+    @media(max-width:820px){
+      #deck .slide.s-custom {
+        padding: 24px 22px !important;
+      }
+      #deck .slide.s-custom .custom-title {
+        font-size: 1.65rem !important;
+      }
+      #deck .slide.s-custom .custom-text {
+        font-size: .78rem !important;
+      }
+    }
+
+  
+/* CLEAN WORKFLOW + SMALLER GLASS PANEL */
+.deck-wrap{
+ width:88% !important;
+ max-width:1300px !important;
+ min-height:500px !important;
+ border-radius:22px !important;
+ padding:20px !important;
+ background:rgba(18,8,29,.42) !important;
+ backdrop-filter:blur(14px);
+}
+
+.workflow-clean{
+ margin-top:24px;
+ list-style:none;
+ padding:0;
+ display:grid;
+ gap:16px;
+ max-width:950px;
+}
+
+.workflow-clean li{
+ display:flex;
+ gap:18px;
+ align-items:flex-start;
+ padding-bottom:16px;
+ border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.workflow-clean li:last-child{border-bottom:none;}
+
+.workflow-clean strong{
+ min-width:190px;
+ color:var(--accent);
+ font-size:.98rem;
+}
+
+.workflow-clean span{
+ color:var(--muted);
+ line-height:1.55;
+}
+
+
+/* FINAL FIX: wide glass panel, shorter height, no page scroll for workflow */
+.deck-wrap{
+  width:100% !important;
+  max-width:none !important;
+  min-height:390px !important;
+  height:390px !important;
+  border-radius:22px !important;
+  padding:0 !important;
+  background:rgba(18,8,29,.42) !important;
+  backdrop-filter:blur(14px);
+  overflow:hidden !important;
+}
+
+.body-row{
+  max-width:1280px !important;
+  padding-top:14px !important;
+  padding-bottom:20px !important;
+}
+
+.left-heading{
+  margin-bottom:10px !important;
+}
+
+#deck .slide.s-custom{
+  padding:30px 56px !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+#deck .slide.s-custom .s-badge{
+  margin-bottom:10px !important;
+  font-size:.52rem !important;
+  padding:3px 12px !important;
+}
+
+#deck .slide.s-custom .custom-title{
+  font-size:clamp(1.95rem,3.2vw,2.9rem) !important;
+  line-height:1.04 !important;
+  margin-bottom:12px !important;
+}
+
+#deck .slide.s-custom .custom-text{
+  font-size:.88rem !important;
+  line-height:1.46 !important;
+  max-width:980px !important;
+}
+
+#deck .slide.s-custom .custom-text p{
+  margin-bottom:8px !important;
+}
+
+.workflow-clean{
+  margin-top:14px !important;
+  gap:8px !important;
+  max-width:980px !important;
+}
+
+.workflow-clean li{
+  display:grid !important;
+  grid-template-columns:220px 1fr !important;
+  gap:12px !important;
+  padding-bottom:8px !important;
+  align-items:start !important;
+}
+
+.workflow-clean strong{
+  min-width:0 !important;
+  font-size:.88rem !important;
+}
+
+.workflow-clean span{
+  font-size:.86rem !important;
+  line-height:1.36 !important;
+}
+
+.workflow-clean li:last-child{
+  padding-bottom:0 !important;
+}
+
+#deck .slide.s-dashboard{
+  height:100% !important;
+  grid-template-rows:18% 82% !important;
+  padding:12px !important;
+  gap:6px !important;
+  overflow:hidden !important;
+}
+
+.slide.s-dashboard iframe{
+  height:100% !important;
+  min-height:0 !important;
+}
+
+
+/* DASHBOARD SLIDE FIT FIX */
+.deck-wrap{
+  width:100% !important;
+  max-width:none !important;
+  min-height:470px !important;
+  height:470px !important;
+  border-radius:22px !important;
+  padding:0 !important;
+  background:rgba(18,8,29,.44) !important;
+  backdrop-filter:blur(14px);
+  overflow:hidden !important;
+}
+
+#deck .slide.s-custom{
+  padding:34px 58px !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+#deck .slide.s-custom .custom-title{
+  font-size:clamp(2rem,3.35vw,3rem) !important;
+  line-height:1.04 !important;
+  margin-bottom:12px !important;
+}
+
+#deck .slide.s-custom .custom-text{
+  font-size:.9rem !important;
+  line-height:1.48 !important;
+}
+
+#deck .slide.s-custom .custom-text p{
+  margin-bottom:8px !important;
+}
+
+.workflow-clean{
+  margin-top:14px !important;
+  gap:8px !important;
+}
+
+.workflow-clean li{
+  display:grid !important;
+  grid-template-columns:220px 1fr !important;
+  gap:12px !important;
+  padding-bottom:8px !important;
+}
+
+.workflow-clean strong{
+  font-size:.9rem !important;
+}
+
+.workflow-clean span{
+  font-size:.87rem !important;
+  line-height:1.36 !important;
+}
+
+/* Let the Power BI dashboard occupy the slide instead of wasting space on header text */
+#deck .slide.s-dashboard{
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  padding:10px !important;
+  overflow:hidden !important;
+  background:transparent !important;
+}
+
+#deck .slide.s-dashboard iframe{
+  position:absolute !important;
+  inset:10px !important;
+  width:calc(100% - 20px) !important;
+  height:calc(100% - 20px) !important;
+  min-height:0 !important;
+  border:0 !important;
+  border-radius:14px !important;
+  background:#0b0614 !important;
+}
+
+.dashboard-overlay{
+  position:absolute;
+  left:22px;
+  top:20px;
+  z-index:5;
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(11,6,20,.72);
+  border:1px solid rgba(192,132,252,.35);
+  backdrop-filter:blur(10px);
+  color:var(--accent);
+  font-size:.58rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+
+
+
+
+/* TECH STACK SIZE FIX */
+.stack-label{
+  font-size:.72rem !important;
+  letter-spacing:.15em !important;
+  margin-bottom:12px !important;
+}
+
+.stack-row{
+  gap:10px !important;
+}
+
+.stack-pill{
+  font-size:.82rem !important;
+  font-weight:600 !important;
+  padding:7px 14px !important;
+  border-radius:999px !important;
+}
+
+</style>
 </head>
 <body>
   <canvas id="stars"></canvas>
@@ -345,76 +1013,148 @@
   </nav>
 
   <div class="body-row">
-    <header class="project-heading">
-      <div class="eyebrow">Featured Analytics Project</div>
-      <div class="left-heading">AI Job Market <em>Dashboard</em></div>
-      <p class="subtitle">
-        A data analytics project focused on understanding AI job trends, salary patterns, skill demand,
-        and role distribution through dashboard storytelling.
-      </p>
-    </header>
+    <div class="left-heading">AI Job Market <em>Dashboard</em></div>
 
     <div class="right">
       <div class="slide-label">Project Walkthrough</div>
-
       <div class="deck-wrap" id="deck">
-        <section class="slide active">
-          <div class="s-badge">Problem</div>
-          <h2 class="s-title">AI jobs are growing fast, but the market is <em>messy</em>.</h2>
-          <p class="s-body">
-            Job seekers need a clearer view of which AI roles are hiring, which skills appear most often,
-            and how salaries vary across role types. This dashboard turns scattered job-market data into
-            an easier decision-making view.
-          </p>
-          <div class="mini-grid">
-            <div class="mini-card"><div class="mini-num">01</div><div class="mini-label">Role and title trends</div></div>
-            <div class="mini-card"><div class="mini-num">02</div><div class="mini-label">Salary and location comparison</div></div>
-            <div class="mini-card"><div class="mini-num">03</div><div class="mini-label">Skills and tool demand</div></div>
-          </div>
-        </section>
 
-        <section class="slide">
-          <div class="s-badge">Workflow</div>
-          <h2 class="s-title">From raw listings to <em>dashboard-ready insights</em>.</h2>
-          <p class="s-body">
-            The project follows a typical analyst workflow: clean the data, standardize role categories,
-            extract skill signals, create measures, and build visuals that answer business-style questions.
-          </p>
-          <ul class="s-list">
-            <li><strong>Cleaned fields:</strong> job title, company, location, salary, experience level, and skills.</li>
-            <li><strong>Created categories:</strong> Data Analyst, Data Scientist, ML Engineer, AI Engineer, and related roles.</li>
-            <li><strong>Built visuals:</strong> salary distribution, top skills, location trends, and role demand.</li>
-          </ul>
-        </section>
-
-        <section class="slide">
-          <div class="s-badge">Dashboard Focus</div>
-          <h2 class="s-title">The dashboard answers questions recruiters and job seekers actually care about.</h2>
-          <div class="bar-chart">
-            <div class="bar" style="height:72%;"><span>Python</span></div>
-            <div class="bar" style="height:58%;"><span>SQL</span></div>
-            <div class="bar" style="height:86%;"><span>ML</span></div>
-            <div class="bar" style="height:50%;"><span>Power BI</span></div>
+        <div class="slide active s-custom">
+          <span class="s-badge">Project Overview</span>
+          <h3 class="custom-title">AI Job Market <em>Dashboard</em></h3>
+          <div class="custom-text">
+            <p>The AI industry is evolving rapidly, creating new career opportunities while changing the skills expected by employers.</p>
+            <p>This project presents an interactive Power BI dashboard designed to analyze AI job market trends, salary distributions, hiring patterns, and skill requirements.</p>
+            <p>The dashboard transforms raw job posting data into meaningful visual insights, enabling users to better understand the current landscape of AI careers and make more informed decisions.</p>
           </div>
-          <p class="s-body" style="margin-top:42px;">
-            Instead of just showing charts, the dashboard highlights what skills are worth prioritizing
-            and which roles show stronger demand.
-          </p>
-        </section>
+        </div>
 
-        <section class="slide">
-          <div class="s-badge">Outcome</div>
-          <h2 class="s-title">A clean analytics story for the <em>AI job market</em>.</h2>
-          <p class="s-body">
-            The final output presents role demand, skill frequency, salary ranges, and job-market patterns
-            in a way that is easy to explain during interviews and portfolio reviews.
-          </p>
-          <div class="mini-grid">
-            <div class="mini-card"><div class="mini-num">3+</div><div class="mini-label">Core KPI sections</div></div>
-            <div class="mini-card"><div class="mini-num">5+</div><div class="mini-label">Dashboard visuals</div></div>
-            <div class="mini-card"><div class="mini-num">1</div><div class="mini-label">Clear job-market story</div></div>
+        <div class="slide s-custom">
+          <span class="s-badge">Problem Statement</span>
+          <h3 class="custom-title">Understanding a Rapidly Changing <em>Job Market</em></h3>
+          <div class="custom-text">
+            <p>With the rapid growth of Artificial Intelligence, students and professionals often struggle to answer important career questions.</p>
+            <ul>
+              <li>Which AI roles are currently most in demand?</li>
+              <li>What technical skills are employers actively seeking?</li>
+              <li>How do salaries differ across job categories?</li>
+              <li>Which areas of AI show the greatest growth potential?</li>
+            </ul>
+            <p class="mini-note">Although large amounts of job market data exist, extracting actionable insights from raw information remains challenging. This project aims to bridge that gap through interactive analytics and visual storytelling.</p>
           </div>
-        </section>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Dataset & Preparation</span>
+          <h3 class="custom-title">From Public Data to <em>Actionable Insights</em></h3>
+          <div class="custom-text">
+            <p>The project uses a publicly available AI job market dataset sourced from Kaggle.</p>
+            <p>Rather than focusing on data collection, the primary objective was to transform existing job market information into meaningful analytical insights.</p>
+            <p>The dataset includes job roles, salary information, required skills, experience expectations, and employment-related characteristics.</p>
+            <p>Preprocessing was performed to improve data quality, standardize information, and prepare the dataset for interactive analysis within Power BI.</p>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Workflow</span>
+<h3 class="custom-title">From raw listings to <em>career insights.</em></h3>
+<div class="custom-text">
+<p>The dashboard development followed a typical analytics lifecycle, beginning with understanding the dataset and ending with interactive visual storytelling.</p>
+<ul class="workflow-clean">
+<li><strong>Data Exploration</strong><span>Reviewed job roles, salary fields, skills, and market attributes.</span></li>
+<li><strong>Data Preparation</strong><span>Cleaned missing values, standardized categories, and transformed fields for analysis.</span></li>
+<li><strong>Analysis & KPIs</strong><span>Created DAX measures and calculated metrics to capture hiring trends and salary patterns.</span></li>
+<li><strong>Visualization</strong><span>Designed interactive Power BI visuals to communicate market insights clearly.</span></li>
+<li><strong>Storytelling</strong><span>Structured the dashboard to guide users from overview metrics to deeper exploration.</span></li>
+</ul>
+</div>
+</div>
+
+<div class="slide s-custom">
+<span class="s-badge">Design Approach</span>
+          <h3 class="custom-title">Designing for Exploration and <em>Decision-Making</em></h3>
+          <div class="custom-text">
+            <p>The dashboard was designed to prioritize usability, clarity, and interactivity.</p>
+            <ul>
+              <li>Interactive filters were added to support flexible exploration.</li>
+              <li>Dynamic KPI cards summarize important metrics at a glance.</li>
+              <li>Comparative visuals help analyze roles, salaries, and skill demand.</li>
+              <li>Visual hierarchy was used to improve readability and reduce clutter.</li>
+              <li>The layout was structured to guide users from overview to deeper analysis.</li>
+            </ul>
+            <p class="mini-note">The objective was not simply to display charts, but to create an analytical tool capable of supporting data-driven decision-making.</p>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Insights</span>
+          <h3 class="custom-title">Key Insights <em>Discovered</em></h3>
+          <div class="custom-text">
+            <p>Analysis of the dataset revealed several important trends across the AI job market.</p>
+            <div class="insight-list">
+              <div>Roles such as Data Scientist, Machine Learning Engineer, and Data Analyst consistently appeared among the most frequently advertised positions, highlighting sustained demand for analytical and machine learning expertise.</div>
+              <div>Python emerged as one of the most commonly requested technical skills across job postings, reinforcing its position as a foundational programming language within the modern AI ecosystem.</div>
+              <div>Salary distributions varied considerably across job categories, suggesting that factors such as specialization, experience level, and role complexity significantly influence compensation patterns.</div>
+              <div>Cloud computing technologies, machine learning frameworks, and data engineering capabilities repeatedly appeared within job requirements, indicating increasing industry emphasis on scalable and production-ready AI solutions.</div>
+              <div>Overall hiring trends suggest continued expansion of AI-related opportunities across multiple industries, reflecting the growing adoption of artificial intelligence and data-driven technologies worldwide.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Features</span>
+          <h3 class="custom-title">Interactive Dashboard <em>Capabilities</em></h3>
+          <div class="custom-text">
+            <p>The dashboard is designed for interactive exploration rather than static reporting.</p>
+            <ul>
+              <li>Filter job market data across multiple dimensions.</li>
+              <li>Compare salary trends across AI-related roles.</li>
+              <li>Identify frequently requested technical skills.</li>
+              <li>Explore role demand and hiring patterns visually.</li>
+              <li>Move from high-level KPIs to detailed observations.</li>
+            </ul>
+            <p class="mini-note">These features allow users to explore the AI job market based on their own goals, whether they are comparing roles, planning skills, or reviewing market direction.</p>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Applications</span>
+          <h3 class="custom-title">Transforming Data into <em>Career Intelligence</em></h3>
+          <div class="custom-text">
+            <p>The dashboard provides practical value for multiple stakeholders within the AI ecosystem.</p>
+            <div class="app-grid">
+              <div class="app-card"><strong>Students</strong>Students can identify industry-relevant skills, understand emerging career pathways, and align their learning journey with current market expectations.</div>
+              <div class="app-card"><strong>Job Seekers</strong>Job seekers can benchmark salary expectations, compare different AI roles, and identify the technical competencies increasingly valued by employers.</div>
+              <div class="app-card"><strong>Recruiters and Hiring Teams</strong>Recruiters can gain broader insights into talent demand patterns, helping them better understand hiring trends and role requirements across AI domains.</div>
+              <div class="app-card"><strong>Academic Institutions</strong>Academic institutions can use labor market insights to evaluate whether existing curricula reflect evolving industry needs and technological advancements.</div>
+            </div>
+            <p class="mini-note">By transforming raw job market data into interactive and accessible visual insights, the dashboard enables more informed academic, professional, and workforce-related decisions.</p>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Challenges & Learnings</span>
+          <h3 class="custom-title">Challenges Faced and <em>Lessons Learned</em></h3>
+          <div class="custom-text">
+            <p>Developing the dashboard involved technical, analytical, and design-related challenges.</p>
+            <p>The dataset contained missing values, inconsistent formats, and categorical differences that required preprocessing before meaningful analysis could be performed.</p>
+            <p>Standardizing salary information, job role categories, and skill descriptions was necessary to make comparisons more reliable across the dashboard.</p>
+            <p>Designing the report also required balancing detail with readability, so the visuals remained useful without overwhelming the user.</p>
+            <p>Through this project, I strengthened my skills in cleaning publicly available job market datasets, creating DAX measures, building KPI logic, designing interactive Power BI reports, and using data storytelling to convert raw information into clear career insights.</p>
+            <p>The project also improved my ability to think like an analyst: define useful questions, structure the data around those questions, and present findings in a way that supports decision-making.</p>
+          </div>
+        </div>
+
+        <div class="slide s-dashboard">
+          <div class="dashboard-overlay">Dashboard Focus</div>
+          <iframe
+            title="AI Job Market Dashboard"
+            src="https://app.powerbi.com/view?r=eyJrIjoiYTFhYmY4OWMtY2FjNy00NzMwLWE4NmQtYzY1MGZkNmFiNmQ3IiwidCI6IjIyMTc3MTMwLTY0MmYtNDFkOS05MjExLTc0MjM3YWQ1Njg3ZCIsImMiOjN9"
+            frameborder="0"
+            allowfullscreen="true">
+          </iframe>
+          
+        </div>
       </div>
 
       <div class="controls-bar">
@@ -428,82 +1168,89 @@
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 4l4 4-4 4"/></svg>
         </button>
         <div class="c-dots" id="dots"></div>
-        <div class="c-counter"><span id="cur">1</span> / <span id="tot">4</span></div>
+        <div class="c-counter"><span id="cur">1</span> / <span id="tot">9</span></div>
         <div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
       </div>
     </div>
 
-    <section class="left">
+    <div class="left">
       <p class="left-problem">
-        <strong>Goal:</strong> Build a dashboard that helps understand AI job-market trends using structured analysis,
-        not just random charts.
+        This project analyzes AI job market trends through an interactive Power BI dashboard. It focuses on salary patterns, hiring demand, role distribution, and the skills commonly requested across AI-related job postings.
       </p>
       <p class="left-problem">
-        <strong>What it shows:</strong> role distribution, salary patterns, location-based trends, in-demand skills,
-        and comparison across AI/data roles.
+        The dataset was sourced from Kaggle, so the focus of this project is not data collection. The focus is on data preparation, dashboard development, visual storytelling, and translating raw job market information into clear insights.
       </p>
       <p class="left-problem">
-        <strong>Why it matters:</strong> This project fits Data Analyst roles because it demonstrates data cleaning,
-        KPI thinking, visualization, and storytelling — not just coding.
+        The final slide includes the live Power BI dashboard. Use the navigation controls to move through the project walkthrough and explore the dashboard at the end.
       </p>
-
       <div class="divider"></div>
-
       <div class="stack-label">Tech Stack</div>
       <div class="stack-row">
         <span class="stack-pill">Power BI</span>
-        <span class="stack-pill">Excel</span>
-        <span class="stack-pill">SQL</span>
-        <span class="stack-pill">Python</span>
-        <span class="stack-pill">Pandas</span>
+        <span class="stack-pill">DAX</span>
+        <span class="stack-pill">Data Cleaning</span>
+        <span class="stack-pill">Dashboard Design</span>
         <span class="stack-pill">Data Storytelling</span>
       </div>
-
       <div class="btn-row">
-        <a class="btn-main btn-blue" href="index.html#projects">
-          View Portfolio
+        <a class="btn-main btn-blue" href="https://app.powerbi.com/view?r=eyJrIjoiYTFhYmY4OWMtY2FjNy00NzMwLWE4NmQtYzY1MGZkNmFiNmQ3IiwidCI6IjIyMTc3MTMwLTY0MmYtNDFkOS05MjExLTc0MjM3YWQ1Njg3ZCIsImMiOjN9" target="_blank" rel="noreferrer">
+          📊 View Interactive Dashboard
         </a>
-        <a class="btn-main btn-ghost" href="https://github.com/carolinenewton03" target="_blank" rel="noreferrer">
-          GitHub
+        <a class="btn-main btn-ghost" href="index.html#projects">
+          ← Back to Projects
         </a>
       </div>
-    </section>
+    </div>
   </div>
 
   <script>
-    /* PURPLE STARFIELD */
-    (function(){
-      const c=document.getElementById('stars'),ctx=c.getContext('2d');let stars=[];
-      function resize(){c.width=innerWidth;c.height=innerHeight;}
-      function init(){
-        stars=[];
-        for(let i=0;i<220;i++){
+
+/* STARFIELD */
+    (function () {
+      const c = document.getElementById('stars');
+      const ctx = c.getContext('2d');
+      let stars = [];
+
+      function resize() {
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+      }
+
+      function init() {
+        stars = [];
+        for (let i = 0; i < 190; i++) {
           stars.push({
-            x:Math.random()*c.width,
-            y:Math.random()*c.height,
-            r:Math.random()*2.1+.35,
-            a:Math.random()*Math.PI*2,
-            s:Math.random()*.6+.15
+            x: Math.random() * c.width,
+            y: Math.random() * c.height,
+            r: Math.random() * 1.8 + 0.3,
+            a: Math.random() * Math.PI * 2,
+            s: Math.random() * 0.55 + 0.12
           });
         }
       }
-      function draw(){
-        ctx.clearRect(0,0,c.width,c.height);
-        stars.forEach(star=>{
-          star.a+=star.s*.01;
-          const op=(Math.sin(star.a)+1)/2*.85+.12;
+
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        stars.forEach(star => {
+          star.a += star.s * 0.012;
+          const op = (Math.sin(star.a) + 1) / 2 * 0.8 + 0.15;
           ctx.beginPath();
-          ctx.arc(star.x,star.y,star.r,0,Math.PI*2);
-          ctx.fillStyle=`rgba(235,220,255,${op})`;
-          ctx.shadowBlur=10;
-          ctx.shadowColor="#c084fc";
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(235,220,255,${op})`;
+          ctx.shadowBlur = 9;
+          ctx.shadowColor = "#c084fc";
           ctx.fill();
         });
         requestAnimationFrame(draw);
       }
-      resize();init();draw();
-      addEventListener('resize',()=>{resize();init();});
+
+      resize();
+      init();
+      draw();
+      window.addEventListener('resize', () => { resize(); init(); });
     })();
+
+
 
     /* SLIDESHOW */
     (function(){
@@ -512,65 +1259,87 @@
       const curEl  = document.getElementById('cur');
       const totEl  = document.getElementById('tot');
       const prog   = document.getElementById('prog');
-      const DELAY  = 4300;
-      let cur = 0, paused = false, progTimer, progStart, progElapsed = 0;
+
+      const NORMAL_DELAY = 6000;
+      const DASHBOARD_DELAY = 26000;
+
+      let cur = 0;
+      let paused = false;
+      let progTimer;
+      let progStart;
+      let progElapsed = 0;
 
       if(totEl) totEl.textContent = slides.length;
+      if(dotsEl) dotsEl.innerHTML = '';
 
-      slides.forEach((_,i)=>{
+      slides.forEach((_, i) => {
         const d = document.createElement('div');
-        d.className = 'c-dot' + (i===0?' active':'');
-        d.addEventListener('click', ()=>goTo(i));
+        d.className = 'c-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => goTo(i));
         dotsEl.appendChild(d);
       });
+
+      function currentDelay(){
+        return slides[cur] && slides[cur].classList.contains('s-dashboard')
+          ? DASHBOARD_DELAY
+          : NORMAL_DELAY;
+      }
 
       function goTo(n){
         slides[cur].classList.remove('active');
         dotsEl.children[cur].classList.remove('active');
+
         cur = (n + slides.length) % slides.length;
+
         slides[cur].classList.add('active');
         dotsEl.children[cur].classList.add('active');
+
         if(curEl) curEl.textContent = cur + 1;
+
         resetProg();
         if(!paused) startProg();
       }
 
       function resetProg(){
-        prog.style.width='0%';
-        progElapsed=0;
+        if(prog) prog.style.width = '0%';
+        progElapsed = 0;
         clearInterval(progTimer);
       }
 
       function startProg(){
         clearInterval(progTimer);
+        const delay = currentDelay();
         progStart = Date.now() - progElapsed;
-        progTimer = setInterval(()=>{
+
+        progTimer = setInterval(() => {
           progElapsed = Date.now() - progStart;
-          prog.style.width = Math.min(100,(progElapsed/DELAY)*100) + '%';
-          if(progElapsed >= DELAY){ goTo(cur+1); }
+          if(prog) prog.style.width = Math.min(100, (progElapsed / delay) * 100) + '%';
+
+          if(progElapsed >= delay){
+            goTo(cur + 1);
+          }
         }, 50);
       }
 
-      document.getElementById('btn-prev').addEventListener('click',()=>{
+      document.getElementById('btn-prev').addEventListener('click', () => {
         clearInterval(progTimer);
-        progElapsed=0;
-        goTo(cur-1);
-        if(!paused) startProg();
+        progElapsed = 0;
+        goTo(cur - 1);
       });
 
-      document.getElementById('btn-next').addEventListener('click',()=>{
+      document.getElementById('btn-next').addEventListener('click', () => {
         clearInterval(progTimer);
-        progElapsed=0;
-        goTo(cur+1);
-        if(!paused) startProg();
+        progElapsed = 0;
+        goTo(cur + 1);
       });
 
-      document.getElementById('btn-pause').addEventListener('click',function(){
+      document.getElementById('btn-pause').addEventListener('click', function(){
         paused = !paused;
         const ico = document.getElementById('ico-pause');
+
         if(paused){
           clearInterval(progTimer);
-          ico.innerHTML = '<polygon points="5,3 13,8 5,13" fill="currentColor"/>';
+          ico.innerHTML = '<polygon points="5,3 19,8 5,13" fill="currentColor"/>';
         } else {
           startProg();
           ico.innerHTML = '<rect x="3" y="2" width="4" height="12" rx="1"/><rect x="9" y="2" width="4" height="12" rx="1"/>';
@@ -579,6 +1348,7 @@
 
       startProg();
     })();
+
   </script>
 </body>
 </html>
