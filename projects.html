@@ -1,66 +1,63 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Projects | Ria Singh</title>
-  <style>
-    :root { --bg:#050711; --card:#101629; --line:rgba(148,163,184,.23); --text:#e6edf7; --muted:#93a4c2; --pink:#f472b6; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:radial-gradient(circle at 20% 20%, #112047, #050711 60%); color:var(--text); }
-    .wrap { max-width:1200px; margin:0 auto; padding:48px 20px 70px; }
-    .top { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:24px; flex-wrap:wrap; }
-    h1 { margin:0; font-size:2rem; }
-    .back,.proj-btn { display:inline-block; text-decoration:none; font-size:.76rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#f9a8d4; border:1px solid rgba(244,114,182,.35); background:rgba(244,114,182,.08); padding:8px 14px; border-radius:10px; }
-    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-    .card { background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
-    .img { width:100%; height:180px; object-fit:cover; display:block; }
-        .body { padding:14px; }
-    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
-    .tag{font-size:.62rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#9fb6d6; border:1px solid rgba(159,182,214,.35); border-radius:999px; padding:4px 8px;}
-    .title{font-size:1rem; font-weight:700; margin-bottom:6px;}
-    .desc{color:var(--muted); font-size:.85rem; line-height:1.55; min-height:120px;}
-    .desc ul{margin:0; padding-left:18px; display:grid; gap:8px;}
-    .desc li{margin:0;}
-    .body .proj-btn{margin-top:10px;}
-    @media (max-width:960px){ .grid{grid-template-columns:repeat(2,1fr);} }
-    @media (max-width:680px){ .grid{grid-template-columns:1fr;} .img{height:210px;} }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <div class="top">
-      <h1>All Projects</h1>
-      <a class="back" href="index.html#projects">← Back to Portfolio</a>
-    </div>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projects | Caroline Newton</title>
+<style>
+:root{--bg:#0b0614;--card:rgba(24,14,39,.78);--line:rgba(192,132,252,.18);--text:#f5f3ff;--muted:#b9a8d9;--accent:#c084fc;}
+*{box-sizing:border-box} body{margin:0;font-family:'Segoe UI',sans-serif;color:var(--text);background:radial-gradient(circle at 20% 20%,rgba(168,85,247,.18),transparent 30%),linear-gradient(180deg,#08040f,#0b0614 45%,#12081d);}
+canvas{position:fixed;inset:0;z-index:0} .wrap{position:relative;z-index:2;max-width:1200px;margin:auto;padding:55px 22px}
+.ey{color:var(--accent);font-size:.75rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:3rem;margin:10px 0;font-family:Georgia,serif} .intro{color:var(--muted);max-width:750px;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;backdrop-filter:blur(15px);transition:.3s}
+.card:hover{transform:translateY(-8px)} .visual{height:220px;overflow:hidden}
+.visual img{width:100%;height:100%;object-fit:cover} .body{padding:20px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tag{font-size:.62rem;padding:4px 8px;border-radius:999px;background:rgba(192,132,252,.1);border:1px solid rgba(192,132,252,.25)}
+.title{font-size:1.1rem;font-weight:700;margin-bottom:10px}
+.desc{color:var(--muted);line-height:1.6;min-height:120px}
+.btn{display:inline-block;margin-top:15px;text-decoration:none;color:#f5d0fe;padding:10px 15px;border-radius:10px;border:1px solid rgba(192,132,252,.3);background:rgba(192,132,252,.1)}
+.back{float:right}
+</style></head>
+<body><canvas id="stars"></canvas>
+<div class="wrap">
+<div class="ey">Portfolio Work</div>
+<a class="btn back" href="index.html#projects">← Back</a>
+<h1>All Projects</h1>
+<p class="intro">A growing collection of analytics, dashboarding, and application development projects focused on solving practical problems through data.</p>
 
-    <section class="grid">
-      <article class="card">
-        <img class="img" src="https://static.wixstatic.com/media/11062b_9fe08d29e6424172b77e981fe0d037f2~mv2.png/v1/fill/w_331,h_220,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Creative%20Workspace%20Illustration.png" alt="OLIST" loading="lazy"/>
-        <div class="body"><div class="tags"><span class="tag">SQL</span><span class="tag">PYTHON</span><span class="tag">A/B TESTING</span><span class="tag">POWER BI</span></div><div class="title">OLIST Marketplace Analysis</div><div class="desc"><ul><li>A 97% one-time buyer retention crisis was hiding inside 99K orders on the Brazilian OLIST marketplace. I built a full medallion data warehouse (Bronze/Silver/Gold) in MySQL and segmented 93K customers into five RFM behavioral groups.</li><li>Then I designed a statistically rigorous A/B test validating a coupon intervention at p&lt;0.001. Outcome: Identified R$4.6M retention opportunity and validated a retention strategy 
-achieving 186% ROI.</li></ul></div></li></ul></div><a class="proj-btn" href="olist-project.html" target="_blank" rel="noreferrer">View Project</a></div>
-      </article>
-      <article class="card">
-        <img class="img" src="https://static.wixstatic.com/media/c8ea68_c80114070e374747ab5d75c852375dbc~mv2.jpg/v1/fill/w_331,h_220,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/pexels-lifeofnacchi-4124939.jpg" alt="FMCG" loading="lazy"/>
-        <div class="body"><div class="tags"><span class="tag">EXCEL</span><span class="tag">POWER QUERY</span><span class="tag">VBA</span><span class="tag">POWER BI</span></div><div class="title">FMCG Sales Automation</div><div class="desc"><ul><li>A regional FMCG distributor was spending 80-115 minutes daily on manual sales consolidation and reporting—a workflow bottleneck that delayed business decisions and created error risk.</li><li>I built a fully automated pipeline where Python generates daily CSVs at 6:30AM via Windows Task Scheduler, Power Query ingests and cleans all files automatically, and Power BI serves a single-page executive dashboard. Result: 30-40 hours/month of manual work eliminated with zero daily intervention needed.</li></ul></div><a class="proj-btn" href="fmcg-project.html" target="_blank" rel="noreferrer">View Project</a></div>
-      </article>
-      <article class="card">
-        <img class="img" src="assets/project-images/aws.webp" alt="AWS healthcare architecture diagram" loading="lazy"/>
-        <div class="body"><div class="tags"><span class="tag">AWS S3</span><span class="tag">GLUE</span><span class="tag">ATHENA</span><span class="tag">QUICKSIGHT</span></div><div class="title">AWS Healthcare ETL Pipeline</div><div class="desc"><ul><li>Raw hospital encounter data (~100K records) was inconsistent and unqueryable for operational decisions. I built a layered cloud ETL pipeline on AWS with S3 raw/cleaned/curated zones and Glue DataBrew for profiling and cleaning.</li><li>Glue PySpark jobs handled transformations and aggregations, Athena supported SQL validation, and QuickSight delivered stakeholder dashboards. The pipeline surfaced actionable KPIs on patient volume by department, average length of stay, and admission type distribution.</li></ul></div><a class="proj-btn" href="https://github.com/ria08/Healthcare-Operations-Analytics-on-AWS-End-to-End-ETL-Pipeline-" target="_blank" rel="noreferrer">View Project</a></div>
-      </article>
-      <article class="card">
-        <img class="img" src="assets/project-images/loan_default.webp" alt="Japanese money for loan default risk analysis" loading="lazy"/>
-        <div class="body"><div class="tags"><span class="tag">EDA</span><span class="tag">RISK ANALYTICS</span><span class="tag">PYTHON</span></div><div class="title">Loan Default Risk Analysis</div><div class="desc"><ul><li>Conducted exploratory data analysis to identify signals associated with loan repayment difficulty for a consumer finance company.</li><li>Analyzed applicant demographics, credit history, employment patterns, and loan characteristics to surface risk indicators.</li><li>Deliverables included risk segmentation framework and data-driven lending recommendations to support risk-aware credit decisions while avoiding unjust rejection of capable borrowers.</li></ul></div><a class="proj-btn" href="https://github.com/ria08/loan_default_risk_analysis" target="_blank" rel="noreferrer">View Project</a></div>
-      </article>
-      <article class="card">
-        <img class="img" src="assets/project-images/web_scraping.webp" alt="Image by Egor Komarov for web scraping project" loading="lazy"/>
-        <div class="body"><div class="tags"><span class="tag">PYTHON</span><span class="tag">BEAUTIFULSOUP</span><span class="tag">API INTEGRATION</span></div><div class="title">Web Scraping &amp; API Collection</div><div class="desc"><ul><li>Built three reusable data extraction workflows to gather structured data from web sources for analysis: (1) E-commerce product scraping using requests + BeautifulSoup, (2) Social media data via RapidAPI integration, and (3) Real-time stock market data collection.</li><li>These pipelines demonstrated data acquisition techniques essential for analytics projects where clean datasets aren't readily available.</li></ul></div><a class="proj-btn" href="https://github.com/ria08/web-scraping-and-API" target="_blank" rel="noreferrer">View Project</a></div>
-      </article>
-      <article class="card">
-        <img class="img" src="assets/project-images/fake_news.webp" alt="Image by Hartono Creative Studio for fake news detection" loading="lazy"/>
-        <div class="body"><div class="tags"><span class="tag">NLP</span><span class="tag">WORD2VEC</span><span class="tag">MACHINE LEARNING</span></div><div class="title">Fake News Detection</div><div class="desc"><ul><li>Built a binary classification system to detect fake vs. true news articles using Word2Vec embeddings and supervised learning.</li><li>The model analyzes textual patterns, writing style, and linguistic features to identify misinformation with 92% accuracy.</li><li>Demonstrates NLP fundamentals and understanding of how text data can be transformed into numerical representations for machine learning.</li></ul></div><a class="proj-btn" href="https://github.com/ria08/Fake_News_Detection_RiaSingh" target="_blank" rel="noreferrer">View Project</a></div>
-      </article>
-    </section>
-  </main>
-</body>
-</html>
+<div class="grid">
+
+<div class="card">
+<div class="visual"><img src="resume-project.png"></div>
+<div class="body">
+<div class="tags"><span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">NLP</span></div>
+<div class="title">Smart Resume Analyzer</div>
+<div class="desc">Built a Streamlit application that extracts resume content, identifies skills, performs role matching, and provides recommendations for both candidates and recruiters.</div>
+<a class="btn" href="smart-resume-analyzer.html">View Project</a>
+</div></div>
+
+<div class="card">
+<div class="visual"><img src="job-dashboard.png"></div>
+<div class="body">
+<div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Analytics</span></div>
+<div class="title">AI Job Market Dashboard</div>
+<div class="desc">Interactive Power BI dashboard exploring salary trends, role demand, skill requirements, and market patterns across AI-related careers.</div>
+<a class="btn" href="ai-job-market-dashboard.html">View Project</a>
+</div></div>
+
+<div class="card">
+<div class="visual"><img src="cost-dashboard.png"></div>
+<div class="body">
+<div class="tags"><span class="tag">Power BI</span><span class="tag">Excel</span><span class="tag">Forecasting</span></div>
+<div class="title">Student Cost of Living Dashboard</div>
+<div class="desc">Analyzed East Lansing student affordability trends across housing, groceries, dining, transportation, and projected future expenses using inflation estimates.</div>
+<a class="btn" href="student-cost-of-living-dashboard.html">View Project</a>
+</div></div>
+
+</div></div>
+<script>
+const c=document.getElementById('stars'),x=c.getContext('2d');let s=[];
+function r(){c.width=innerWidth;c.height=innerHeight;s=[];for(let i=0;i<180;i++)s.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.6+.2,a:Math.random()*6})}
+function d(){x.clearRect(0,0,c.width,c.height);s.forEach(st=>{st.a+=.01;let o=(Math.sin(st.a)+1)/2*.8+.1;x.beginPath();x.arc(st.x,st.y,st.r,0,7);x.fillStyle=`rgba(235,220,255,${o})`;x.fill();});requestAnimationFrame(d)}
+r();d();onresize=r;
+</script></body></html>
