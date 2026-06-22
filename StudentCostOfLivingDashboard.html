@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cost of Living Dashboard | Caroline Newton</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0614;
+      --accent: #c084fc;
+      --accent-2: #a855f7;
+      --accent-3: #f472b6;
+      --ok: #34d399;
+      --text: #f5f3ff;
+      --muted: #b9a8d9;
+      --line: rgba(192,132,252,0.18);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html, body { min-height:100%; }
+    body {
+      font-family:'DM Sans',sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(168,85,247,0.18), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(192,132,252,0.12), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(244,114,182,0.08), transparent 35%),
+        linear-gradient(180deg, #08040f 0%, #0b0614 45%, #12081d 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+    canvas#stars { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* ── NAV ── */
+    .topnav {
+      flex-shrink:0; height:48px; position:relative; z-index:100;
+      background:rgba(11,6,20,.94); backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 28px;
+    }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:.9rem; color:var(--accent); text-decoration:none; }
+    .nav-back { display:inline-flex; align-items:center; gap:5px; font-size:.68rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .nav-back:hover { color:var(--accent); }
+    .nav-back svg { width:12px; height:12px; }
+
+    /* ── BODY ── */
+    .body-row {
+      position:relative;
+      z-index:2;
+      max-width:980px;
+      width:100%;
+      margin:0 auto;
+      padding:24px 28px 34px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    /* ══ LEFT ══ */
+    .left {
+      display:flex; flex-direction:column; justify-content:flex-start;
+      padding:0;
+      overflow:visible;
+      background:none;
+    }
+    .left-heading { font-family:'Playfair Display',serif; font-size:1.58rem; line-height:1.24; margin:0; text-align:center; white-space:normal; font-weight:700; }
+    .left-heading em { color:var(--accent); font-style:italic; }
+    .left-problem { color:var(--muted); font-size:.98rem; line-height:1.86; text-align:left; margin-bottom:12px; }
+    .left-problem strong { color:var(--muted); font-weight:400; }
+    .divider { height:1px; background:var(--line); margin:16px 0; }
+    .stack-label { font-size:.58rem; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-2); margin-bottom:8px; text-align:center; }
+    .stack-row { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+    .stack-pill { font-size:.66rem; font-weight:400; color:var(--accent-2); background:rgba(167,139,250,.09); border:1px solid rgba(167,139,250,.22); border-radius:100px; padding:4px 10px; }
+    .btn-row { display:flex; gap:8px; margin-top:18px; justify-content:center; flex-wrap:wrap; }
+    .btn-main { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 16px; border-radius:8px; font-size:.75rem; font-weight:400; text-decoration:none; transition:all .22s; white-space:nowrap; }
+    .btn-main svg { width:13px; height:13px; }
+    .btn-blue { background:var(--accent); color:#0b0614; border:1px solid transparent; }
+    .btn-blue:hover { background:#d8b4fe; transform:translateY(-2px); box-shadow:0 6px 18px rgba(192,132,252,.3); }
+    .btn-ghost { border:1px solid rgba(192,132,252,.3); color:var(--accent); background:rgba(192,132,252,.07); }
+    .btn-ghost:hover { background:rgba(192,132,252,.14); transform:translateY(-2px); }
+
+    /* ══ RIGHT ══ */
+    .right {
+      display:flex; flex-direction:column;
+      padding:0;
+      overflow:visible;
+      min-height:0;
+      gap:10px;
+    }
+
+    .slide-label {
+      flex-shrink:0;
+      font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--accent); display:flex; align-items:center; gap:8px;
+    }
+    .slide-label::after { content:""; flex:1; height:1px; background:linear-gradient(90deg,rgba(192,132,252,.3),transparent); }
+
+    .deck-wrap {
+      width:100%;
+      aspect-ratio:16/10.8;
+      min-height:520px;
+      position:relative;
+      background:rgba(8,15,30,.8);
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+    }
+    @media (max-width:820px) {
+      .body-row { padding:20px 16px 24px; }
+      .deck-wrap { aspect-ratio:4/3; min-height:unset; }
+    }
+
+    /* controls */
+    .controls-bar {
+      flex-shrink:0; height:40px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .c-btn { width:30px; height:30px; border-radius:7px; background:rgba(192,132,252,.07); border:1px solid rgba(192,132,252,.18); color:var(--accent); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .18s; flex-shrink:0; }
+    .c-btn:hover { background:rgba(192,132,252,.16); }
+    .c-btn svg { width:12px; height:12px; }
+    .c-pause { width:30px; height:30px; border-radius:7px; background:rgba(167,139,250,.07); border:1px solid rgba(167,139,250,.18); color:var(--accent-2); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .18s; flex-shrink:0; }
+    .c-pause:hover { background:rgba(167,139,250,.15); }
+    .c-pause svg { width:12px; height:12px; }
+    .c-counter { font-size:.7rem; font-weight:600; color:var(--muted); flex:1; text-align:center; }
+    .c-counter span { color:var(--accent); font-weight:700; }
+    .c-dots { display:flex; gap:5px; align-items:center; }
+    .c-dot { width:5px; height:5px; border-radius:50%; background:rgba(192,132,252,.2); border:1px solid rgba(192,132,252,.3); cursor:pointer; transition:all .2s; }
+    .c-dot.active { background:var(--accent); width:14px; border-radius:3px; box-shadow:0 0 5px rgba(192,132,252,.4); }
+    .prog-wrap { width:70px; height:3px; background:rgba(192,132,252,.1); border-radius:2px; overflow:hidden; flex-shrink:0; }
+    .prog-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); width:0%; transition:width .1s linear; }
+
+    /* ── SLIDES ── */
+    .slide {
+      position:absolute; inset:0;
+      opacity:0; transition:opacity .6s ease;
+      pointer-events:none;
+    }
+    .slide.active { opacity:1; pointer-events:all; }
+
+    /* TEXT-ONLY SLIDE — centered, big */
+    .slide.s-textonly {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:28px 36px; text-align:center;
+      background:linear-gradient(135deg,rgba(192,132,252,.04),rgba(167,139,250,.03));
+    }
+
+    /* IMAGE SLIDE — text top 38%, image bottom 62% */
+    .slide.s-imgslide {
+      display:grid;
+      grid-template-rows:38% 62%;
+    }
+
+    /* CTA slide */
+    .slide.s-cta {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:24px; text-align:center;
+      background:linear-gradient(135deg,rgba(192,132,252,.06),rgba(167,139,250,.06));
+    }
+
+    /* shared text elements */
+    .s-badge {
+      font-size:.55rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--accent); background:rgba(192,132,252,.1); border:1px solid rgba(192,132,252,.2);
+      border-radius:100px; padding:3px 10px; margin-bottom:10px; display:inline-block;
+    }
+    .s-title {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1rem,2.4vw,1.45rem);
+      line-height:1.25; color:var(--text); margin-bottom:8px;
+    }
+    .s-title em { color:var(--accent); font-style:italic; }
+    .s-title .hi2 { color:var(--accent-2); }
+    .s-title .hi3 { color:var(--ok); }
+    .s-body { font-size:.78rem; color:var(--muted); line-height:1.65; }
+    .s-body strong { color:var(--text); }
+    .s-body .accent { color:var(--accent); font-weight:600; }
+    .s-body .ok { color:var(--ok); font-weight:600; }
+
+    /* image panel inside imgslide */
+    .s-img-panel { overflow:hidden; background:#12081d; }
+    .s-img-panel img { width:100%; height:100%; object-fit:contain; padding:8px; display:block; }
+
+    /* text panel inside imgslide */
+    .s-top-text {
+      display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+      padding:14px 22px 10px;
+      border-bottom:1px solid var(--line);
+      background:rgba(11,6,20,.72);
+    }
+
+    /* time table */
+    .time-tbl { width:100%; border-collapse:collapse; margin-top:10px; text-align:left; }
+    .time-tbl tr { border-bottom:1px solid rgba(192,132,252,.07); }
+    .time-tbl tr:last-child { border-bottom:none; }
+    .time-tbl td { padding:5px 2px; font-size:.74rem; }
+    .time-tbl td:first-child { color:var(--muted); }
+    .time-tbl td:last-child { text-align:right; font-weight:700; white-space:nowrap; }
+    .bad { color:#fc8181; }
+    .good { color:var(--ok); }
+
+    /* pipeline chain with SVG icons */
+    .chain { display:flex; align-items:center; flex-wrap:wrap; justify-content:center; gap:4px; margin-top:14px; }
+    .chain-step {
+      display:flex; flex-direction:column; align-items:center; gap:5px;
+      padding:10px 14px;
+      background:rgba(192,132,252,.07); border:1px solid rgba(192,132,252,.18);
+      border-radius:10px; min-width:76px;
+    }
+    .chain-step svg { width:20px; height:20px; color:var(--accent); }
+    .chain-step .cs-name { font-size:.64rem; font-weight:700; color:var(--accent); }
+    .chain-step .cs-tool { font-size:.58rem; color:var(--muted); }
+    .chain-arrow { color:var(--accent-2); font-size:.9rem; padding:0 2px; font-weight:700; }
+
+    /* stat chips */
+    .stat-row { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin-top:14px; }
+    .stat-chip { padding:7px 12px; border-radius:9px; background:rgba(192,132,252,.07); border:1px solid rgba(192,132,252,.15); text-align:center; }
+    .stat-chip .sv { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--accent); display:block; line-height:1; }
+    .stat-chip .sl { font-size:.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; display:block; margin-top:2px; }
+
+    /* bullet list */
+    .s-list { list-style:none; display:flex; flex-direction:column; gap:6px; margin-top:8px; text-align:left; }
+    .s-list li { display:flex; align-items:flex-start; gap:7px; font-size:.76rem; color:var(--muted); line-height:1.5; }
+    .s-list li::before { content:"→"; color:var(--accent); flex-shrink:0; font-weight:700; }
+    .s-list li strong { color:var(--text); }
+
+    /* before/after grid */
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; width:100%; max-width:480px; }
+    .ba-card { padding:12px 14px; border-radius:10px; }
+    .ba-label { font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; }
+    .ba-val { font-size:.76rem; color:var(--muted); line-height:1.55; }
+
+    /* CTA */
+    .cta-icon-big { width:46px; height:46px; border-radius:12px; background:rgba(192,132,252,.12); border:1px solid rgba(192,132,252,.25); display:flex; align-items:center; justify-content:center; margin-bottom:4px; }
+    .cta-icon-big svg { width:22px; height:22px; color:var(--accent); }
+    .cta-big-title { font-family:'Playfair Display',serif; font-size:1.1rem; text-align:center; margin-bottom:6px; }
+    .cta-big-desc { font-size:.74rem; color:var(--muted); text-align:center; max-width:280px; line-height:1.6; margin-bottom:10px; }
+    .cta-big-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 22px; border-radius:9px; font-size:.76rem; font-weight:700; text-decoration:none; background:var(--accent); color:#0b0614; transition:all .22s; }
+    .cta-big-btn:hover { background:#d8b4fe; transform:translateY(-2px); box-shadow:0 6px 18px rgba(192,132,252,.3); }
+    .cta-big-btn svg { width:13px; height:13px; }
+
+
+    /* CUSTOM TEXT SLIDES */
+    .slide.s-custom {
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:34px 42px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(192,132,252,.12), transparent 36%),
+        linear-gradient(135deg, rgba(192,132,252,.055), rgba(168,85,247,.045));
+    }
+    .custom-title {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.25rem,2.5vw,1.8rem);
+      line-height:1.18;
+      margin-bottom:14px;
+      color:var(--text);
+      text-align:left;
+    }
+    .custom-title em {
+      color:var(--accent);
+      font-style:italic;
+    }
+    .custom-text {
+      color:var(--muted);
+      font-size:.86rem;
+      line-height:1.7;
+      max-width:850px;
+    }
+    .custom-text p {
+      margin-bottom:10px;
+    }
+    .custom-text ul {
+      margin:8px 0 0 18px;
+      display:grid;
+      gap:6px;
+    }
+    .custom-text li {
+      padding-left:2px;
+    }
+    .workflow-box {
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+    .workflow-step {
+      border:1px solid rgba(192,132,252,.22);
+      background:rgba(192,132,252,.07);
+      border-radius:12px;
+      padding:12px 10px;
+      text-align:center;
+      color:var(--text);
+      font-size:.78rem;
+      font-weight:700;
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .workflow-step:hover {
+      transform:translateY(-4px);
+      border-color:rgba(192,132,252,.5);
+      box-shadow:0 10px 24px rgba(0,0,0,.24);
+    }
+    .mini-note {
+      margin-top:14px;
+      color:var(--muted);
+      font-size:.78rem;
+      line-height:1.6;
+      border-left:2px solid var(--accent);
+      padding-left:12px;
+    }
+    .insight-list {
+      display:grid;
+      gap:9px;
+      margin-top:10px;
+    }
+    .insight-list div {
+      border:1px solid rgba(192,132,252,.16);
+      background:rgba(192,132,252,.055);
+      border-radius:10px;
+      padding:10px 12px;
+      color:var(--muted);
+      font-size:.79rem;
+      line-height:1.55;
+    }
+    .app-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .app-card {
+      border:1px solid rgba(192,132,252,.18);
+      background:rgba(192,132,252,.055);
+      border-radius:12px;
+      padding:13px 14px;
+      color:var(--muted);
+      font-size:.78rem;
+      line-height:1.55;
+    }
+    .app-card strong {
+      color:var(--text);
+      display:block;
+      margin-bottom:4px;
+    }
+    .slide.s-dashboard {
+      display:grid;
+      grid-template-rows:24% 76%;
+      padding:18px;
+      gap:12px;
+      background:linear-gradient(135deg, rgba(192,132,252,.08), rgba(168,85,247,.06));
+    }
+    .dashboard-head {
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+    }
+    .dashboard-head .custom-title {
+      text-align:center;
+      margin-bottom:6px;
+    }
+    .slide.s-dashboard iframe {
+      width:100%;
+      height:100%;
+      border:0;
+      border-radius:12px;
+      background:#0b0614;
+      border:1px solid rgba(192,132,252,.22);
+    }
+    @media(max-width:820px){
+      .slide.s-custom { padding:22px 20px; }
+      .workflow-box { grid-template-columns:1fr; }
+      .app-grid { grid-template-columns:1fr; }
+      .custom-text { font-size:.78rem; }
+    }
+
+
+    /* FIX: center text slides inside the deck */
+    #deck .slide.s-custom {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      padding: 28px 42px;
+      overflow-y: auto;
+    }
+
+    #deck .slide.s-custom.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #deck .slide.s-custom .s-badge {
+      margin: 0 auto 14px;
+      width: fit-content;
+    }
+
+    #deck .slide.s-custom .custom-title {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    #deck .slide.s-custom .custom-text {
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    #deck .slide.s-custom .mini-note {
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Cleaner workflow: curved path style */
+    .workflow-path {
+      margin: 18px auto 0;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+    }
+
+    .wf-node {
+      position: relative;
+      min-width: 138px;
+      padding: 11px 12px;
+      border-radius: 999px;
+      text-align: center;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(192,132,252,.14), rgba(168,85,247,.07));
+      border: 1px solid rgba(192,132,252,.28);
+      box-shadow: 0 8px 22px rgba(0,0,0,.18);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .wf-node:hover {
+      transform: translateY(-4px);
+      border-color: rgba(192,132,252,.58);
+      box-shadow: 0 14px 30px rgba(0,0,0,.26);
+    }
+
+    .wf-link {
+      color: var(--accent);
+      font-weight: 800;
+      opacity: .9;
+      animation: arrowPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes arrowPulse {
+      0%,100% { opacity: .45; transform: translateX(0); }
+      50% { opacity: 1; transform: translateX(3px); }
+    }
+
+
+    /* SCREENSHOT-STYLE SLIDE ALIGNMENT */
+    #deck .slide.s-custom {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 56px 72px;
+      overflow-y: auto;
+    }
+
+    #deck .slide.s-custom.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #deck .slide.s-custom .s-badge {
+      margin: 0 0 16px 0;
+      width: fit-content;
+    }
+
+    #deck .slide.s-custom .custom-title {
+      margin-top: 0;
+      margin-bottom: 18px;
+      text-align: left;
+      max-width: 960px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.05;
+    }
+
+    #deck .slide.s-custom .custom-text {
+      margin: 0;
+      max-width: 920px;
+      text-align: left;
+      font-size: clamp(.92rem, 1.35vw, 1.12rem);
+      line-height: 1.75;
+    }
+
+    #deck .slide.s-custom .custom-text p {
+      margin-bottom: 14px;
+    }
+
+    #deck .slide.s-custom .custom-text ul {
+      margin-top: 12px;
+      margin-left: 0;
+      padding-left: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    #deck .slide.s-custom .custom-text li {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    #deck .slide.s-custom .custom-text li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    #deck .slide.s-custom .mini-note {
+      max-width: 920px;
+      margin: 18px 0 0 0;
+    }
+
+    /* Workflow slide: narrative bullets, not block cards */
+    .workflow-narrative {
+      display: grid;
+      gap: 15px;
+      margin-top: 18px;
+      max-width: 940px;
+    }
+
+    .workflow-line {
+      position: relative;
+      padding-left: 34px;
+      color: var(--muted);
+      font-size: clamp(.92rem, 1.25vw, 1.08rem);
+      line-height: 1.65;
+    }
+
+    .workflow-line::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .workflow-line strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    @media(max-width:820px){
+      #deck .slide.s-custom {
+        padding: 28px 24px;
+      }
+      #deck .slide.s-custom .custom-title {
+        font-size: 1.75rem;
+      }
+      #deck .slide.s-custom .custom-text {
+        font-size: .82rem;
+      }
+    }
+
+
+    /* Insight lines: cleaner than cards */
+    .insight-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+      max-width: 940px;
+    }
+
+    .insight-list div {
+      position: relative;
+      border: none !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      padding: 0 0 0 30px !important;
+      color: var(--muted);
+      font-size: clamp(.86rem, 1.15vw, 1rem);
+      line-height: 1.6;
+    }
+
+    .insight-list div::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    /* IMAGE CAROUSEL */
+    #deck .slide img {
+      width:100%; height:100%;
+      object-fit:contain;
+      display:block;
+      border-radius:10px;
+    }
+    #deck .slide {
+      position:absolute; inset:0;
+      opacity:0; transition:opacity .5s ease;
+      pointer-events:none;
+      background:#0b0614;
+      border-radius:10px;
+    }
+    #deck .slide.active { opacity:1; pointer-events:all; }
+  
+    /* FINAL COMPACT SLIDE + DASHBOARD FIX */
+    .deck-wrap {
+      background: rgba(18, 8, 29, 0.58) !important;
+      border-color: rgba(192,132,252,.24) !important;
+      box-shadow:
+        inset 0 0 60px rgba(192,132,252,.035),
+        0 22px 55px rgba(0,0,0,.28);
+      min-height: 560px !important;
+    }
+
+    #deck .slide {
+      background: transparent !important;
+    }
+
+    #deck .slide.s-custom {
+      padding: 36px 58px !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+
+    #deck .slide.s-custom .s-badge {
+      margin-bottom: 10px !important;
+      font-size: .55rem !important;
+      padding: 3px 12px !important;
+    }
+
+    #deck .slide.s-custom .custom-title {
+      font-size: clamp(1.9rem, 3.25vw, 2.75rem) !important;
+      line-height: 1.08 !important;
+      margin-bottom: 14px !important;
+    }
+
+    #deck .slide.s-custom .custom-text {
+      font-size: .92rem !important;
+      line-height: 1.55 !important;
+      max-width: 960px !important;
+    }
+
+    #deck .slide.s-custom .custom-text p {
+      margin-bottom: 9px !important;
+    }
+
+    #deck .slide.s-custom .custom-text ul {
+      gap: 7px !important;
+      margin-top: 8px !important;
+    }
+
+    #deck .slide.s-custom .custom-text li {
+      padding-left: 24px !important;
+      line-height: 1.45 !important;
+    }
+
+    .workflow-narrative {
+      gap: 8px !important;
+      margin-top: 10px !important;
+      max-width: 940px !important;
+    }
+
+    .workflow-line {
+      font-size: .88rem !important;
+      line-height: 1.45 !important;
+      padding-left: 26px !important;
+    }
+
+    .insight-list {
+      gap: 8px !important;
+      margin-top: 8px !important;
+    }
+
+    .insight-list div {
+      font-size: .86rem !important;
+      line-height: 1.42 !important;
+      padding-left: 24px !important;
+    }
+
+    .app-grid {
+      gap: 8px !important;
+      margin-top: 8px !important;
+    }
+
+    .app-card {
+      padding: 9px 11px !important;
+      font-size: .82rem !important;
+      line-height: 1.38 !important;
+      background: rgba(192,132,252,.045) !important;
+    }
+
+    .mini-note {
+      margin-top: 10px !important;
+      font-size: .84rem !important;
+      line-height: 1.45 !important;
+    }
+
+    #deck .slide.s-dashboard {
+      grid-template-rows: 20% 80% !important;
+      padding: 14px !important;
+      gap: 8px !important;
+      background: transparent !important;
+      overflow: hidden !important;
+    }
+
+    .dashboard-head {
+      padding: 0 !important;
+    }
+
+    .dashboard-head .custom-title {
+      font-size: clamp(1.25rem, 2vw, 1.75rem) !important;
+      margin-bottom: 4px !important;
+    }
+
+    .dashboard-head .s-body {
+      font-size: .78rem !important;
+      line-height: 1.35 !important;
+      margin: 0 !important;
+    }
+
+    .slide.s-dashboard iframe {
+      height: 100% !important;
+      min-height: 0 !important;
+      border-radius: 12px !important;
+      background: rgba(18,8,29,.5) !important;
+    }
+
+    @media(max-width:820px){
+      #deck .slide.s-custom {
+        padding: 24px 22px !important;
+      }
+      #deck .slide.s-custom .custom-title {
+        font-size: 1.65rem !important;
+      }
+      #deck .slide.s-custom .custom-text {
+        font-size: .78rem !important;
+      }
+    }
+
+  
+/* CLEAN WORKFLOW + SMALLER GLASS PANEL */
+.deck-wrap{
+ width:88% !important;
+ max-width:1300px !important;
+ min-height:500px !important;
+ border-radius:22px !important;
+ padding:20px !important;
+ background:rgba(18,8,29,.42) !important;
+ backdrop-filter:blur(14px);
+}
+
+.workflow-clean{
+ margin-top:24px;
+ list-style:none;
+ padding:0;
+ display:grid;
+ gap:16px;
+ max-width:950px;
+}
+
+.workflow-clean li{
+ display:flex;
+ gap:18px;
+ align-items:flex-start;
+ padding-bottom:16px;
+ border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.workflow-clean li:last-child{border-bottom:none;}
+
+.workflow-clean strong{
+ min-width:190px;
+ color:var(--accent);
+ font-size:.98rem;
+}
+
+.workflow-clean span{
+ color:var(--muted);
+ line-height:1.55;
+}
+
+
+/* FINAL FIX: wide glass panel, shorter height, no page scroll for workflow */
+.deck-wrap{
+  width:100% !important;
+  max-width:none !important;
+  min-height:390px !important;
+  height:390px !important;
+  border-radius:22px !important;
+  padding:0 !important;
+  background:rgba(18,8,29,.42) !important;
+  backdrop-filter:blur(14px);
+  overflow:hidden !important;
+}
+
+.body-row{
+  max-width:1280px !important;
+  padding-top:14px !important;
+  padding-bottom:20px !important;
+}
+
+.left-heading{
+  margin-bottom:10px !important;
+}
+
+#deck .slide.s-custom{
+  padding:30px 56px !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+#deck .slide.s-custom .s-badge{
+  margin-bottom:10px !important;
+  font-size:.52rem !important;
+  padding:3px 12px !important;
+}
+
+#deck .slide.s-custom .custom-title{
+  font-size:clamp(1.95rem,3.2vw,2.9rem) !important;
+  line-height:1.04 !important;
+  margin-bottom:12px !important;
+}
+
+#deck .slide.s-custom .custom-text{
+  font-size:.88rem !important;
+  line-height:1.46 !important;
+  max-width:980px !important;
+}
+
+#deck .slide.s-custom .custom-text p{
+  margin-bottom:8px !important;
+}
+
+.workflow-clean{
+  margin-top:14px !important;
+  gap:8px !important;
+  max-width:980px !important;
+}
+
+.workflow-clean li{
+  display:grid !important;
+  grid-template-columns:220px 1fr !important;
+  gap:12px !important;
+  padding-bottom:8px !important;
+  align-items:start !important;
+}
+
+.workflow-clean strong{
+  min-width:0 !important;
+  font-size:.88rem !important;
+}
+
+.workflow-clean span{
+  font-size:.86rem !important;
+  line-height:1.36 !important;
+}
+
+.workflow-clean li:last-child{
+  padding-bottom:0 !important;
+}
+
+#deck .slide.s-dashboard{
+  height:100% !important;
+  grid-template-rows:18% 82% !important;
+  padding:12px !important;
+  gap:6px !important;
+  overflow:hidden !important;
+}
+
+.slide.s-dashboard iframe{
+  height:100% !important;
+  min-height:0 !important;
+}
+
+
+/* DASHBOARD SLIDE FIT FIX */
+.deck-wrap{
+  width:100% !important;
+  max-width:none !important;
+  min-height:470px !important;
+  height:470px !important;
+  border-radius:22px !important;
+  padding:0 !important;
+  background:rgba(18,8,29,.44) !important;
+  backdrop-filter:blur(14px);
+  overflow:hidden !important;
+}
+
+#deck .slide.s-custom{
+  padding:34px 58px !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+#deck .slide.s-custom .custom-title{
+  font-size:clamp(2rem,3.35vw,3rem) !important;
+  line-height:1.04 !important;
+  margin-bottom:12px !important;
+}
+
+#deck .slide.s-custom .custom-text{
+  font-size:.9rem !important;
+  line-height:1.48 !important;
+}
+
+#deck .slide.s-custom .custom-text p{
+  margin-bottom:8px !important;
+}
+
+.workflow-clean{
+  margin-top:14px !important;
+  gap:8px !important;
+}
+
+.workflow-clean li{
+  display:grid !important;
+  grid-template-columns:220px 1fr !important;
+  gap:12px !important;
+  padding-bottom:8px !important;
+}
+
+.workflow-clean strong{
+  font-size:.9rem !important;
+}
+
+.workflow-clean span{
+  font-size:.87rem !important;
+  line-height:1.36 !important;
+}
+
+/* Let the Power BI dashboard occupy the slide instead of wasting space on header text */
+#deck .slide.s-dashboard{
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  padding:10px !important;
+  overflow:hidden !important;
+  background:transparent !important;
+}
+
+#deck .slide.s-dashboard iframe{
+  position:absolute !important;
+  inset:10px !important;
+  width:calc(100% - 20px) !important;
+  height:calc(100% - 20px) !important;
+  min-height:0 !important;
+  border:0 !important;
+  border-radius:14px !important;
+  background:#0b0614 !important;
+}
+
+.dashboard-overlay{
+  position:absolute;
+  left:22px;
+  top:20px;
+  z-index:5;
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(11,6,20,.72);
+  border:1px solid rgba(192,132,252,.35);
+  backdrop-filter:blur(10px);
+  color:var(--accent);
+  font-size:.58rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+
+
+
+
+/* TECH STACK SIZE FIX */
+.stack-label{
+  font-size:.72rem !important;
+  letter-spacing:.15em !important;
+  margin-bottom:12px !important;
+}
+
+.stack-row{
+  gap:10px !important;
+}
+
+.stack-pill{
+  font-size:.82rem !important;
+  font-weight:600 !important;
+  padding:7px 14px !important;
+  border-radius:999px !important;
+}
+
+
+/* Slide 8 Applications spacing + colors fix */
+.feature-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,1fr) !important;
+  gap:16px !important;
+  margin-top:18px !important;
+  max-width:920px !important;
+}
+
+.feature-card{
+  background:rgba(192,132,252,.08) !important;
+  border:1px solid rgba(192,132,252,.20) !important;
+  border-radius:14px !important;
+  padding:16px 18px !important;
+  color:var(--muted) !important;
+  line-height:1.55 !important;
+}
+
+.feature-card strong{
+  color:var(--accent) !important;
+  display:block !important;
+  margin-bottom:8px !important;
+  font-size:.95rem !important;
+}
+
+@media(max-width:820px){
+  .feature-grid{
+    grid-template-columns:1fr !important;
+  }
+}
+
+</style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+
+  <nav class="topnav">
+    <a class="nav-logo" href="index.html">Caroline Newton</a>
+    <a class="nav-back" href="projects.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 12L6 8l4-4"/></svg>
+      All Projects
+    </a>
+  </nav>
+
+  <div class="body-row">
+    <div class="left-heading">Cost of Living <em>Dashboard</em></div>
+
+    <div class="right">
+      <div class="slide-label">Project Walkthrough</div>
+      <div class="deck-wrap" id="deck">
+
+        <div class="slide active s-custom">
+          <span class="s-badge">Project Overview</span>
+          <h3 class="custom-title">Student Cost of Living <em>Dashboard</em></h3>
+          <div class="custom-text">
+            <p>This Power BI project analyzes student living costs and affordability trends in East Lansing from a financial and data analytics perspective.</p>
+            <p>The objective was to understand how rising expenses affect students on a monthly basis rather than discussing affordability only in broad terms.</p>
+            <p>The dashboard compares student expenses across 2024 and 2025 while also providing a simple projection for 2026 using inflation-based estimates and CPI references from the U.S. Bureau of Labor Statistics (BLS).</p>
+            <p>By combining housing, grocery, dining, transportation, and lifestyle expenses, the dashboard provides a comprehensive view of student affordability patterns.</p>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Problem Statement</span>
+          <h3 class="custom-title">How much more expensive has student life become?</h3>
+          <div class="custom-text">
+            <p>Students often experience rising expenses but rarely understand which categories contribute the most to affordability challenges.</p>
+            <ul>
+              <li>How have student living expenses changed between 2024 and 2025?</li>
+              <li>Which spending categories place the greatest financial pressure on students?</li>
+              <li>How might inflation affect student expenses in the future?</li>
+              <li>What could student spending patterns look like in 2026?</li>
+            </ul>
+            <p>The dashboard answers these questions through interactive financial analysis and visualization.</p>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Data Sources</span>
+          <h3 class="custom-title">Building a realistic student <em>spending dataset.</em></h3>
+          <div class="custom-text">
+            <ul class="workflow-clean">
+              <li><strong>Housing</strong><span>Zillow listings and East Lansing apartment rental information.</span></li>
+              <li><strong>Groceries</strong><span>Walmart, Target, Kroger, Aldi, and Meijer pricing.</span></li>
+              <li><strong>Dining</strong><span>Student eating-out expenses from Domino's, Chipotle, and Dave's Hot Chicken.</span></li>
+              <li><strong>Transportation</strong><span>Fuel prices and ride-based transportation estimates.</span></li>
+              <li><strong>Inflation Estimates</strong><span>U.S. Bureau of Labor Statistics CPI references.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Workflow</span>
+          <h3 class="custom-title">From raw price information to <em>affordability insights.</em></h3>
+          <div class="custom-text">
+            <ul class="workflow-clean">
+              <li><strong>Data Collection</strong><span>Gathered price and expense information from multiple public sources.</span></li>
+              <li><strong>Data Preparation</strong><span>Cleaned and standardized cost categories across years.</span></li>
+              <li><strong>Financial Analysis</strong><span>Calculated monthly spending trends and affordability indicators.</span></li>
+              <li><strong>Forecasting</strong><span>Built inflation-based projections for 2026 using CPI estimates.</span></li>
+              <li><strong>Dashboard Development</strong><span>Created interactive Power BI visuals and KPI summaries.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Dashboard Design</span>
+          <h3 class="custom-title">Designed for financial <em>storytelling.</em></h3>
+          <div class="custom-text">
+            <ul>
+              <li>KPI cards summarizing overall spending changes.</li>
+              <li>Category-wise expense breakdowns.</li>
+              <li>Year-over-year cost comparisons.</li>
+              <li>Inflation impact visualizations.</li>
+              <li>Interactive filtering for detailed exploration.</li>
+              <li>Visual storytelling focused on affordability analysis.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Key Insights</span>
+          <h3 class="custom-title">What did the analysis <em>reveal?</em></h3>
+          <div class="custom-text">
+            <ul>
+              <li>Rent remains the largest contributor to student financial pressure.</li>
+              <li>Even moderate inflation significantly impacts disposable income and savings.</li>
+              <li>Daily lifestyle expenses accumulate substantially over time.</li>
+              <li>Students may become increasingly price-sensitive and shift toward value-based spending behavior.</li>
+              <li>Affordability challenges are likely to continue in future years.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Forecasting</span>
+          <h3 class="custom-title">Looking ahead to <em>2026.</em></h3>
+          <div class="custom-text">
+            <p>A simple projection model was developed using inflation estimates and CPI references.</p>
+            <ul>
+              <li>Housing expenses are expected to continue increasing.</li>
+              <li>Essential spending categories may place additional pressure on student budgets.</li>
+              <li>Small annual price increases can produce meaningful long-term affordability impacts.</li>
+              <li>Students may increasingly prioritize cost-conscious purchasing decisions.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Applications</span>
+          <h3 class="custom-title">Who can benefit from this <em>analysis?</em></h3>
+          <div class="feature-grid">
+            <div class="feature-card"><strong>Students</strong>Budget better and compare living expenses.</div>
+            <div class="feature-card"><strong>Universities</strong>Understand affordability challenges affecting students.</div>
+            <div class="feature-card"><strong>Researchers</strong>Study trends in student financial behavior.</div>
+            <div class="feature-card"><strong>Policy Makers</strong>Evaluate inflation impacts on student populations.</div>
+          </div>
+        </div>
+
+        <div class="slide s-custom">
+          <span class="s-badge">Challenges & Learnings</span>
+          <h3 class="custom-title">Challenges faced and <em>lessons learned.</em></h3>
+          <div class="custom-text">
+            <p>Collecting and standardizing cost information from multiple sources while maintaining consistency across years was challenging.</p>
+            <p>Selecting expense categories that realistically represent student spending behavior also required careful consideration.</p>
+            <p>Through this project, I strengthened my skills in financial trend analysis, KPI-driven dashboard development, business-focused data storytelling, consumer spending behavior analysis, and interactive dashboard design in Power BI.</p>
+            <p>The project improved my ability to translate economic and financial data into actionable insights.</p>
+          </div>
+        </div>
+
+        <div class="slide s-dashboard">
+          <div class="dashboard-overlay">Dashboard Focus</div>
+          <iframe title="Student Cost of Living Dashboard" src="https://app.powerbi.com/view?r=eyJrIjoiN2FiYjVhYmYtMGM0NC00MTVhLWJmYjctYjA2NjQ0ZWNlZmFkIiwidCI6IjIyMTc3MTMwLTY0MmYtNDFkOS05MjExLTc0MjM3YWQ1Njg3ZCIsImMiOjN9" frameborder="0" allowfullscreen="true"></iframe>
+        </div>
+
+      </div>
+
+      <div class="controls-bar">
+        <button class="c-btn" id="btn-prev" title="Previous">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 12L6 8l4-4"/></svg>
+        </button>
+        <button class="c-pause" id="btn-pause" title="Pause">
+          <svg id="ico-pause" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="4" height="12" rx="1"/><rect x="9" y="2" width="4" height="12" rx="1"/></svg>
+        </button>
+        <button class="c-btn" id="btn-next" title="Next">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 4l4 4-4 4"/></svg>
+        </button>
+        <div class="c-dots" id="dots"></div>
+        <div class="c-counter"><span id="cur">1</span> / <span id="tot">9</span></div>
+        <div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
+      </div>
+    </div>
+
+    <div class="left">
+      <p class="left-problem">
+        This Power BI dashboard analyzes cost of living patterns across locations and expense categories. It helps users compare affordability, understand major cost drivers, and explore living-cost differences through interactive visuals.
+      </p>
+      <p class="left-problem">
+        The project emphasizes dashboard design, data preparation, KPI creation, and visual storytelling. The live Power BI dashboard is embedded as the final slide, with a direct link available below.
+      </p>
+      <div class="divider"></div>
+      <div class="stack-label">Tech Stack</div>
+      <div class="stack-row">
+        <span class="stack-pill">Power BI</span>
+        <span class="stack-pill">DAX</span>
+        <span class="stack-pill">Data Cleaning</span>
+        <span class="stack-pill">KPI Design</span>
+        <span class="stack-pill">Dashboard Design</span>
+        <span class="stack-pill">Data Storytelling</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn-main btn-blue" href="https://app.powerbi.com/view?r=eyJrIjoiN2FiYjVhYmYtMGM0NC00MTVhLWJmYjctYjA2NjQ0ZWNlZmFkIiwidCI6IjIyMTc3MTMwLTY0MmYtNDFkOS05MjExLTc0MjM3YWQ1Njg3ZCIsImMiOjN9" target="_blank" rel="noreferrer">
+          📊 View Interactive Dashboard
+        </a>
+        <a class="btn-main btn-ghost" href="index.html#projects">
+          ← Back to Projects
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+/* STARFIELD */
+    (function () {
+      const c = document.getElementById('stars');
+      const ctx = c.getContext('2d');
+      let stars = [];
+
+      function resize() {
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+      }
+
+      function init() {
+        stars = [];
+        for (let i = 0; i < 190; i++) {
+          stars.push({
+            x: Math.random() * c.width,
+            y: Math.random() * c.height,
+            r: Math.random() * 1.8 + 0.3,
+            a: Math.random() * Math.PI * 2,
+            s: Math.random() * 0.55 + 0.12
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        stars.forEach(star => {
+          star.a += star.s * 0.012;
+          const op = (Math.sin(star.a) + 1) / 2 * 0.8 + 0.15;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(235,220,255,${op})`;
+          ctx.shadowBlur = 9;
+          ctx.shadowColor = "#c084fc";
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      init();
+      draw();
+      window.addEventListener('resize', () => { resize(); init(); });
+    })();
+
+
+
+    /* SLIDESHOW */
+    (function(){
+      const slides = Array.from(document.querySelectorAll('#deck .slide'));
+      const dotsEl = document.getElementById('dots');
+      const curEl  = document.getElementById('cur');
+      const totEl  = document.getElementById('tot');
+      const prog   = document.getElementById('prog');
+
+      const NORMAL_DELAY = 6000;
+      const DASHBOARD_DELAY = 26000;
+
+      let cur = 0;
+      let paused = false;
+      let progTimer;
+      let progStart;
+      let progElapsed = 0;
+
+      if(totEl) totEl.textContent = slides.length;
+      if(dotsEl) dotsEl.innerHTML = '';
+
+      slides.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'c-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+      });
+
+      function currentDelay(){
+        return slides[cur] && slides[cur].classList.contains('s-dashboard')
+          ? DASHBOARD_DELAY
+          : NORMAL_DELAY;
+      }
+
+      function goTo(n){
+        slides[cur].classList.remove('active');
+        dotsEl.children[cur].classList.remove('active');
+
+        cur = (n + slides.length) % slides.length;
+
+        slides[cur].classList.add('active');
+        dotsEl.children[cur].classList.add('active');
+
+        if(curEl) curEl.textContent = cur + 1;
+
+        resetProg();
+        if(!paused) startProg();
+      }
+
+      function resetProg(){
+        if(prog) prog.style.width = '0%';
+        progElapsed = 0;
+        clearInterval(progTimer);
+      }
+
+      function startProg(){
+        clearInterval(progTimer);
+        const delay = currentDelay();
+        progStart = Date.now() - progElapsed;
+
+        progTimer = setInterval(() => {
+          progElapsed = Date.now() - progStart;
+          if(prog) prog.style.width = Math.min(100, (progElapsed / delay) * 100) + '%';
+
+          if(progElapsed >= delay){
+            goTo(cur + 1);
+          }
+        }, 50);
+      }
+
+      document.getElementById('btn-prev').addEventListener('click', () => {
+        clearInterval(progTimer);
+        progElapsed = 0;
+        goTo(cur - 1);
+      });
+
+      document.getElementById('btn-next').addEventListener('click', () => {
+        clearInterval(progTimer);
+        progElapsed = 0;
+        goTo(cur + 1);
+      });
+
+      document.getElementById('btn-pause').addEventListener('click', function(){
+        paused = !paused;
+        const ico = document.getElementById('ico-pause');
+
+        if(paused){
+          clearInterval(progTimer);
+          ico.innerHTML = '<polygon points="5,3 19,8 5,13" fill="currentColor"/>';
+        } else {
+          startProg();
+          ico.innerHTML = '<rect x="3" y="2" width="4" height="12" rx="1"/><rect x="9" y="2" width="4" height="12" rx="1"/>';
+        }
+      });
+
+      startProg();
+    })();
+
+  </script>
+</body>
+</html>
