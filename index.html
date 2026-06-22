@@ -343,30 +343,40 @@
 }
 
 
-/* EMERGENCY VISIBILITY FIX */
+/* HARD FIX: force portfolio content visible */
 .reveal,
 .stagger,
-.stagger > * {
+.stagger > *,
+.hero-badge,
+h1,
+.cta-group,
+.hero-about,
+.hero-role,
+.hero-name-highlight {
   opacity: 1 !important;
   transform: none !important;
 }
 
-#home h1,
-.hero-badge,
-.cta-group,
-.hero-name-highlight,
-.hero-role,
-.hero-about {
-  opacity: 1 !important;
-  transform: none !important;
+#home {
+  min-height: 100vh !important;
+  padding-top: 72px !important;
+  padding-bottom: 72px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.hero-inner {
+  min-height: auto !important;
+  justify-content: center !important;
 }
 
 .main {
-  min-height: 100vh;
+  display: block !important;
+  min-height: 100vh !important;
 }
 
 .page-section {
-  min-height: auto;
+  display: block;
 }
 
 </style>
@@ -711,27 +721,17 @@
 </div><!-- end .main -->
 
 
-
 <script>
 (function(){
   const c = document.getElementById('stars');
   if (!c) return;
   const ctx = c.getContext('2d');
   let stars = [];
-  function resize(){
-    c.width = window.innerWidth;
-    c.height = window.innerHeight;
-  }
+  function resize(){ c.width = window.innerWidth; c.height = window.innerHeight; }
   function init(){
     stars = [];
     for(let i=0;i<220;i++){
-      stars.push({
-        x: Math.random()*c.width,
-        y: Math.random()*c.height,
-        r: Math.random()*1.9+.25,
-        a: Math.random()*Math.PI*2,
-        s: Math.random()*.6+.12
-      });
+      stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.8+.25,a:Math.random()*Math.PI*2,s:Math.random()*.6+.12});
     }
   }
   function draw(){
@@ -755,38 +755,31 @@
 
 (function(){
   const greetings = ["வணக்கம்","السلام عليكم","Hello","Bonjour"];
-  let i = 0;
   const el = document.getElementById("greeting");
   if(!el) return;
+  let i = 0;
   setInterval(()=>{
-    i = (i+1) % greetings.length;
+    i = (i + 1) % greetings.length;
     el.textContent = greetings[i];
   }, 2300);
 })();
 
 (function(){
-  document.querySelectorAll('.kn').forEach(el=>{
-    const target = Number(el.dataset.t || 0);
-    el.textContent = String(target);
+  document.querySelectorAll('.kn').forEach(el => {
+    el.textContent = el.dataset.t || '0';
   });
 })();
 
 (function(){
   const links = document.querySelectorAll('.sidebar-nav a');
   const sections = Array.from(document.querySelectorAll('section[id]'));
-  if(!links.length || !sections.length) return;
-
   function setActive(){
-    let current = sections[0].id;
-    for(const sec of sections){
-      const rect = sec.getBoundingClientRect();
-      if(rect.top <= 180) current = sec.id;
-    }
-    links.forEach(a=>{
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    let current = sections.length ? sections[0].id : "";
+    sections.forEach(sec => {
+      if(sec.getBoundingClientRect().top <= 180) current = sec.id;
     });
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
   }
-
   window.addEventListener('scroll', setActive, {passive:true});
   setActive();
 })();
